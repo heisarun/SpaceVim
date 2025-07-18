@@ -51,3 +51,15 @@ if 1
     execute 'source' fnamemodify(expand('<sfile>'), ':h').'/init.vim'
 endif
 " vim:set et sw=2
+
+if has('win32') || has('win64')
+  Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
+else
+  Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+endif
+
+if has('win32') || has('win64')
+  call dein#add('tbodt/deoplete-tabnine', { 'build': 'powershell.exe .\install.ps1' })
+else
+  call dein#add('tbodt/deoplete-tabnine', { 'build': './install.sh' })
+endif
