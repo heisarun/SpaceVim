@@ -8,7 +8,7 @@
 
 local M = {}
 
-M.__password = require('spacevim.api.password')
+M.__password = require('spacevim.api').import('password')
 
 local empty = function(expr)
   return vim.fn.empty(expr) == 1
@@ -19,12 +19,6 @@ local extend = function(t1, t2) -- {{{
     table.insert(t1, v)
   end
 end
-
-local easing = require('easing')
-local fps = 120
-local total_time = 300
-local step = 0
-local easing_func = 'linear'
 
 local notifications = {}
 M.message = {}
@@ -55,7 +49,7 @@ function M.notify(msg, ...) -- {{{
     table.insert(M.message, msg)
   end
   if M.notify_max_width == 0 then
-    M.notify_max_width = vim.o.columns * 0.30
+    M.notify_max_width = vim.o.columns * 0.35
   end
   if type(opts) == 'string' then
     M.notification_color = opts
@@ -64,11 +58,6 @@ function M.notify(msg, ...) -- {{{
   end
   if empty(M.hashkey) then
     M.hashkey = M.__password.generate_simple(10)
-  end
-  if opts.easing then
-    fps = opts.easing.fps or 60
-    total_time = opts.easing.time or 300
-    easing_func = opts.easing.func or 'linear'
   end
   M.redraw_windows()
   vim.fn.setbufvar(M.bufnr, '&number', 0)
@@ -109,8 +98,6 @@ function M.close_all() -- {{{
     notifications[M.hashkey] = nil
   end
   M.notification_width = 1
-  step = 0
-  easing_func = ''
 end
 -- }}}
 
@@ -150,12 +137,9 @@ function M.redraw_windows()
     return
   end
   M.begin_row = 2
-  -- detached plugin no need to read shared notifys
-  local ok, viml_notify = pcall(vim.fn['SpaceVim#api#notify#shared_notifys'])
-  if ok then
-    for hashkey, _ in pairs(viml_notify) do
-      M.begin_row = M.begin_row + msg_real_len(viml_notify[hashkey].message) + 2
-    end
+  local viml_notify = vim.fn['SpaceVim#api#notify#shared_notifys']()
+  for hashkey, _ in pairs(viml_notify) do
+    M.begin_row = M.begin_row + msg_real_len(viml_notify[hashkey].message) + 2
   end
   for hashkey, _ in pairs(notifications) do
     if hashkey ~= M.hashkey then
@@ -200,7 +184,7 @@ function M.redraw_windows()
     vim.api.nvim_win_set_option(M.winid, 'winhighlight', 'NormalFloat:Normal')
     -- vim.api.nvim_win_set_option(M.winid, 'winhighlight', 'Search:' .. M.notification_color)
     vim.fn.matchadd(M.notification_color, '.*', 10, -1, {
-      window = M.winid,
+      window = M.winid
     })
     M.border.winid = vim.api.nvim_open_win(M.border.bufnr, false, {
       relative = 'editor',
@@ -214,7 +198,7 @@ function M.redraw_windows()
     -- vim.api.nvim_win_set_option(M.border.winid, 'winhighlight', 'Normal:VertSplit')
     -- vim.api.nvim_win_set_option(M.border.winid, 'winhighlight', 'Search:VertSplit')
     vim.fn.matchadd('VertSplit', '.*', 10, -1, {
-      window = M.border.winid,
+      window = M.border.winid
     })
     if
       M.winblend > 0
@@ -233,28 +217,17 @@ function M.redraw_windows()
     M.draw_border(M.title, M.notification_width, msg_real_len(M.message))
   )
   vim.api.nvim_buf_set_lines(M.bufnr, 0, -1, false, message_body(M.message))
-  vim.api.nvim_win_set_cursor(M.winid, { 1, 0 })
-  vim.api.nvim_win_set_cursor(M.border.winid, { 1, 0 })
+  vim.api.nvim_win_set_cursor(M.winid, {1, 0})
+  vim.api.nvim_win_set_cursor(M.border.winid, {1, 0})
 end
 
 function M.increase_window()
   if M.notification_width <= M.notify_max_width and M.win_is_open() then
-    step = step + 1
-    if easing[easing_func] then
-      M.notification_width = math.floor(
-        easing[easing_func](
-          math.floor(1000 / fps + 0.5) * step,
-          1,
-          M.notify_max_width - 1,
-          total_time
-        ) + 0.5
-      )
-    else
-      M.notification_width = math.floor(
-        easing.linear(math.floor(1000 / fps + 0.5) * step, 1, M.notify_max_width - 1, total_time)
-          + 0.5
-      )
-    end
+    M.notification_width = M.notification_width
+      + vim.fn.min({
+        vim.fn.float2nr((M.notify_max_width - M.notification_width) * 1 / 20),
+        vim.fn.float2nr(M.notify_max_width),
+      })
     vim.api.nvim_buf_set_lines(
       M.border.bufnr,
       0,
@@ -263,7 +236,7 @@ function M.increase_window()
       M.draw_border(M.title, M.notification_width, msg_real_len(M.message))
     )
     M.redraw_windows()
-    vim.fn.timer_start(math.floor(1000 / fps + 0.5), M.increase_window, { ['repeat'] = 1 })
+    vim.fn.timer_start(10, M.increase_window, { ['repeat'] = 1 })
   end
 end
 
@@ -278,6 +251,7 @@ function M.draw_border(title, width, height) -- {{{
   return lines
 end
 -- }}}
+
 
 function M.close(...) -- {{{
   if not empty(M.message) then
@@ -295,8 +269,6 @@ function M.close(...) -- {{{
       notifications[M.hashkey] = nil
     end
     M.notification_width = 1
-    step = 0
-    easing_func = ''
   end
   for hashkey, _ in pairs(notifications) do
     notifications[hashkey].redraw_windows()

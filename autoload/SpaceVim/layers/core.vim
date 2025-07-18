@@ -21,9 +21,6 @@ scriptencoding utf-8
 " 3. `enable_filetree_gitstatus`: enable/disable git status column in filetree.
 " 4. `enable_filetree_filetypeicon`: enable/disable filetype icons in filetree.
 " 5. `enable_netrw`: enable/disable netrw, disabled by default.
-" 6. `enable_quickfix_key_bindings`: enable/disable quickfix.nvim, mappings
-" for neovim quickfix window. This option is only for neovim.
-" 7. `enable_winbar`: enable/disable `wsdjeg/winbar.nvim`
 "
 " NOTE: the `enable_vimfiler_gitstatus` and `enable_filetree_gitstatus` option
 " has been deprecated. Use layer option instead.
@@ -155,8 +152,6 @@ endif
 
 let s:enable_smooth_scrolling = 1
 let s:enable_netrw = 0
-let s:enable_quickfix_key_bindings = 0
-let s:enable_winbar = 0
 
 let g:_spacevim_enable_filetree_gitstatus = 0
 let g:_spacevim_enable_filetree_filetypeicon = 0
@@ -243,16 +238,6 @@ function! SpaceVim#layers#core#plugins() abort
         \}])
   call add(plugins, [g:_spacevim_root_dir . 'bundle/vim-grepper' ,              { 'on_cmd' : 'Grepper',
         \ 'loadconf' : 1} ])
-
-  if s:enable_quickfix_key_bindings
-    call add(plugins, [g:_spacevim_root_dir . 'bundle/quickfix.nvim' ,              { 'merged' : 0} ])
-  endif
-  if s:enable_winbar
-    call add(plugins, [g:_spacevim_root_dir . 'bundle/winbar.nvim' ,              { 'merged' : 0} ])
-  endif
-  if g:spacevim_flygrep_next_version && has('nvim-0.10.0')
-    call add(plugins, [g:_spacevim_root_dir . 'bundle/flygrep.nvim' ,              { 'merged' : 0} ])
-  endif
   return plugins
 endfunction
 
@@ -276,6 +261,7 @@ function! SpaceVim#layers#core#config() abort
     nnoremap <silent> <F3> <cmd>NeoTreeFocusToggle<CR>
   endif
   let g:matchup_matchparen_status_offscreen = 0
+  let g:smoothie_no_default_mappings = !s:enable_smooth_scrolling
   " Unimpaired bindings
   " Quickly add empty lines
   nnoremap <silent> [<Space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>
@@ -1218,7 +1204,6 @@ function! SpaceVim#layers#core#set_variable(var) abort
   let s:enable_smooth_scrolling = get(a:var,
         \ 'enable_smooth_scrolling',
         \ s:enable_smooth_scrolling)
-  let g:smoothie_no_default_mappings = !s:enable_smooth_scrolling
   let g:_spacevim_enable_filetree_filetypeicon = get(a:var,
         \ 'enable_filetree_filetypeicon',
         \ g:_spacevim_enable_filetree_filetypeicon)
@@ -1228,12 +1213,6 @@ function! SpaceVim#layers#core#set_variable(var) abort
   let s:enable_netrw = get(a:var,
         \ 'enable_netrw',
         \ 0)
-  let s:enable_quickfix_key_bindings = get(a:var,
-        \ 'enable_quickfix_key_bindings',
-        \ s:enable_quickfix_key_bindings)
-  let s:enable_winbar = get(a:var,
-        \ 'enable_winbar',
-        \ s:enable_winbar)
 endfunction
 
 function! s:defx_find_current_file() abort

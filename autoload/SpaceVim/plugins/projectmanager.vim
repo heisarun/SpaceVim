@@ -349,10 +349,7 @@ else
     let g:_spacevim_project_name = project.name
     let b:_spacevim_project_name = g:_spacevim_project_name
     for Callback in s:project_callback
-      try
-        call call(Callback, [])
-      catch
-      endtry
+      call call(Callback, [])
     endfor
   endfunction
 

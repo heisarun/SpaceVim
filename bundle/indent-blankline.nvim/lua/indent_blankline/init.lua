@@ -14,12 +14,7 @@ M.init = function()
 
     utils.reset_highlights()
 
-    local f = vim.schedule_wrap(function()
-      require("indent_blankline.commands").refresh(true)
-    end)
-
-    f()
-
+    require("indent_blankline.commands").refresh(true)
 end
 
 M.setup = function(options)

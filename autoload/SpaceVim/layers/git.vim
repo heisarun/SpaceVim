@@ -135,7 +135,6 @@ function! SpaceVim#layers#git#config() abort
     call SpaceVim#mapping#space#def('nnoremap', ['g', 'v'], 'Git log', 'git-log-of-current-repo', 1)
     call SpaceVim#mapping#space#def('nnoremap', ['g', 'm'], 'Git branch', 'branch-manager', 1)
     call SpaceVim#mapping#space#def('nnoremap', ['g', 'r'], 'Git remote', 'remote-manager', 1)
-    call SpaceVim#plugins#projectmanager#reg_callback(function('git#branch#detect'))
   endif
   augroup spacevim_layer_git
     autocmd!

@@ -37,15 +37,9 @@ install_nvim() {
     local tmp="$(mktemp -d)"
     local out="${DEPS}/_neovim/$tag"
     mkdir -p $out
-    if [[ $tag == "nightly" ]]; then
-      curl  -o $tmp/nvim-linux-x86_64.tar.gz -L "https://github.com/neovim/neovim/releases/download/$tag/nvim-linux-x86_64.tar.gz"
-      tar -xzvf $tmp/nvim-linux-x86_64.tar.gz -C $tmp
-      cp -r $tmp/nvim-linux-x86_64/* $out
-    else
-      curl  -o $tmp/nvim-linux64.tar.gz -L "https://github.com/neovim/neovim/releases/download/$tag/nvim-linux64.tar.gz"
-      tar -xzvf $tmp/nvim-linux64.tar.gz -C $tmp
-      cp -r $tmp/nvim-linux64/* $out
-    fi
+    curl  -o $tmp/nvim-linux64.tar.gz -L "https://github.com/neovim/neovim/releases/download/$tag/nvim-linux64.tar.gz"
+    tar -xzvf $tmp/nvim-linux64.tar.gz -C $tmp
+    cp -r $tmp/nvim-linux64/* $out
     chmod +x $out/bin/nvim
     # fix ModuleNotFoundError: No module named 'setuptools'
     python3 -m pip install -U setuptools

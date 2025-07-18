@@ -4,6 +4,7 @@ description: "SpaceVim 是一个模块化的 Vim 和 Neovim 的配置集合，�
 lang: zh
 ---
 
+[![twitter](https://img.spacevim.org/twitter.svg)](https://twitter.com/SpaceVim)
 [![GPLv3 License](https://img.spacevim.org/license-GPLv3-blue.svg)](development/#证书)
 
 ![work-flow](https://img.spacevim.org/workflow.png)
@@ -17,7 +18,7 @@ SpaceVim 是一个模块化的 Vim 和 Neovim 配置集合，它的灵感来自�
 - [使用文档](documentation/): 完整的使用文档，详细介绍了每一个快捷键以及配置的功能。
 - [可用模块](layers/): 罗列了目前已经实现的所有模块，包括功能模块和语言模块。
 
-当前最新的稳定版为[v2.4.0](SpaceVim-release-v2.4.0/)，发布于2024年12月23日。
+当前最新的稳定版为[v2.3.0](https://spacevim.org/SpaceVim-release-v2.3.0/)，发布于2024年3月24日。
 [following-HEAD](following-head/) 页面罗列了自 `v2.3.0` 至今最新的更新以及变动。若需要了解项目的后续开发路线及计划，可以查阅[开发路线](roadmap/)页面。
 
 ## 最新消息

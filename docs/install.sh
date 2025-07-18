@@ -84,7 +84,7 @@ On_IWhite='\033[0;107m'   # White
 # }}}
 
 # version
-Version='2.5.0-dev'
+Version='2.4.0'
 #System name
 System="$(uname -s)"
 # }}}
@@ -139,18 +139,11 @@ fetch_repo () {
         (
             cd "${XDGSpaceDir:?}"
             git pull
-            git fetch --tags
         )
         success "Successfully update SpaceVim"
     else
         info "Trying to clone SpaceVim"
-        git clone --depth 1 https://github.com/wsdjeg/SpaceVim.git "${XDGSpaceDir:-}"
-        info "fetch spacevim tags"
-        (
-            cd "${XDGSpaceDir:?}"
-            git fetch --tags
-        )
-        success "fetch tags done"
+        git clone --depth 1 https://github.com/SpaceVim/SpaceVim.git "${XDGSpaceDir:-}"
         if [ $? -eq 0 ]; then
             success "Successfully clone SpaceVim"
         else

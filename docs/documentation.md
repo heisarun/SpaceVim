@@ -282,11 +282,11 @@ you can use SpaceVim `disabled_plugins` in the `[options]` section of your confi
 
 ### Bootstrap Functions
 
-Due to the limitations of toml syntax, SpaceVim provides two bootstrap function options
-`bootstrap_before` and `bootstrap_after`, which specify two Vim custom functions.
+SpaceVim provides two kinds of bootstrap functions
+for custom configurations and key bindings,
+namely `bootstrap_before` and `bootstrap_after`.
 
-To enable this feature you need to add the following config to the `[options]` section of your
-configuration file `~/.SpaceVim.d/init.toml`.
+To enable them you need to add the following into lines to the `[options]` section of your configuration file.
 
 ```toml
 [options]
@@ -295,8 +295,7 @@ configuration file `~/.SpaceVim.d/init.toml`.
 ```
 
 The difference is that the bootstrap before function will be called before SpaceVim core,
-and the bootstrap after function is called on autocmd `VimEnter`, so you can override defaults
-key bindings in `bootstrap_after` function.
+and the bootstrap after function is called on autocmd `VimEnter`.
 
 The bootstrap functions should be placed in the `autoload` directory
 in `~/.SpaceVim.d/`. In our case, create file `~/.SpaceVim.d/autoload/myspacevim.vim`
@@ -312,10 +311,7 @@ endfunction
 
 function! myspacevim#after() abort
     " you can remove key binding in bootstrap_after function
-    " for example, remove F3 which is to open file tree by default.
-    unmap <F3>
-    " create new key binding to open file tree.
-    nnoremap <silent> <F3> :Defx<Cr> 
+    iunmap kj
 endfunction
 ```
 
@@ -1786,25 +1782,6 @@ Key bindings in FlyGrep buffer:
 | `Ctrl-k`            | remove the Line after the cursor   |
 | `Ctrl-a` / `<Home>` | Go to the beginning of the line    |
 | `Ctrl-e` / `<End>`  | Go to the end of the line          |
-
-The next version of FlyGrep.vim is WIP, If you want to have a try. Set `flygrep_next_version` to `true`.
-This option maybe removed when `flygrep.nvim` development is done.
-
-```
-[options]
-  flygrep_next_version = true
-```
-
-When this option is `true`, `SPC s /` and `SPC s P` will use `flygrep.nvim`. And the key binding in `flygrep.nvim` window is:
-
-| Key bindings | descretion                         |
-| ------------ | ---------------------------------- |
-| `<Enter>`    | open cursor item                   |
-| `<Tab>`      | next item                          |
-| `<S-Tab>`    | previous item                      |
-| `<C-s>`      | open item in split window          |
-| `<C-v>`      | open item in vertical split window |
-| `<C-t>`      | open item in new tabpage           |
 
 #### Persistent highlighting
 

@@ -184,7 +184,7 @@ let s:SYSTEM = SpaceVim#api#import('system')
 
 ""
 " Version of SpaceVim , this value can not be changed.
-let g:spacevim_version = '2.5.0-dev'
+let g:spacevim_version = '2.4.0'
 
 ""
 " @section default_indent, options-default_indent
@@ -1334,9 +1334,6 @@ let g:spacevim_lint_on_save            = 1
 " Default search tools supported by flygrep. The default order is ['rg', 'ag',
 " 'pt', 'ack', 'grep', 'findstr', 'git']
 let g:spacevim_search_tools            = ['rg', 'ag', 'pt', 'ack', 'grep', 'findstr', 'git']
-
-let g:spacevim_flygrep_next_version = v:false
-
 ""
 " @section project_rooter_patterns, options-project_rooter_patterns
 " @parentsection options
@@ -1543,7 +1540,6 @@ let g:_spacevim_altmoveignoreft         = ['Tagbar' , 'vimfiler']
 let g:_spacevim_mappings_space = {}
 let g:_spacevim_mappings_prefixs = {}
 let g:_spacevim_mappings_windows = {}
-let g:_spacevim_statusline_fileformat = ''
 let g:spacevim_enable_javacomplete2_py = 0
 ""
 " @section src_root, options-src_root

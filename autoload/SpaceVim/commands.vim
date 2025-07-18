@@ -27,7 +27,7 @@ function! SpaceVim#commands#load() abort
   command! -nargs=0 -bang SPDebugInfo call SpaceVim#logger#viewLog('<bang>' == '!')
   ""
   " view runtime log
-  command! -nargs=* SPRuntimeLog call SpaceVim#logger#viewRuntimeLog(<f-args>)
+  command! -nargs=0 SPRuntimeLog call SpaceVim#logger#viewRuntimeLog()
   ""
   " edit custom config file of SpaceVim, by default this command will open
   " global custom configuration file, '-l' option will load local custom
@@ -64,6 +64,7 @@ function! SpaceVim#commands#load() abort
   " defined already.
   command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
         \ | wincmd p | diffthis
+  command! -nargs=* -complete=custom,SpaceVim#plugins#complete_plugs Plugin :call SpaceVim#plugins#Plugin(<f-args>)
   ""
   " Open specific project in @section(options-src_root)
   command! -nargs=+ -complete=custom,SpaceVim#plugins#projectmanager#complete_project OpenProject :call SpaceVim#plugins#projectmanager#OpenProject(<f-args>)

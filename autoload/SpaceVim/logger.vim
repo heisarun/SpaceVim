@@ -55,16 +55,7 @@ if has('nvim-0.5.0')
   ""
   " This a a function to view the spacevim runtime log. same as
   " |:SPRuntimeLog| and `SPC h L`
-  "
-  " To clear runtime log, just run:
-  " >
-  "   :SPRuntimeLog --clear
-  " <
-  function! SpaceVim#logger#viewRuntimeLog(...) abort
-    if get(a:000, 0, '') ==# '--clear'
-      lua require("spacevim.logger").clearRuntimeLog()
-      return
-    endif
+  function! SpaceVim#logger#viewRuntimeLog() abort
     lua require("spacevim.logger").viewRuntimeLog()
   endfunction
 
@@ -160,11 +151,7 @@ else
 
   endfunction
 
-  function! SpaceVim#logger#viewRuntimeLog(...) abort
-    if get(a:000, 0, '') ==# '--clear'
-      call s:LOGGER.clear()
-      return
-    endif
+  function! SpaceVim#logger#viewRuntimeLog() abort
     let info = "### SpaceVim runtime log :\n\n"
     let info .= s:LOGGER.view(s:LOGGER.level)
     tabnew +setl\ nobuflisted
