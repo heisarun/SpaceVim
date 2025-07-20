@@ -1,14 +1,11 @@
+local util = require 'lspconfig.util'
+
 return {
   default_config = {
     filetypes = { 'elixir', 'eelixir', 'heex', 'surface' },
     root_dir = function(fname)
-      local matches = vim.fs.find({ 'mix.exs' }, { upward = true, limit = 2, path = fname })
-      local child_or_root_path, maybe_umbrella_path = unpack(matches)
-      local root_dir = vim.fs.dirname(maybe_umbrella_path or child_or_root_path)
-
-      return root_dir
+      return util.root_pattern('mix.exs', '.git')(fname) or vim.loop.os_homedir()
     end,
-    single_file_support = true,
   },
   docs = {
     description = [[
@@ -34,11 +31,9 @@ require'lspconfig'.elixirls.setup{
     ...
 }
 ```
-
-'root_dir' is chosen like this: if two or more directories containing `mix.exs` were found when searching directories upward, the second one (higher up) is chosen, with the assumption that it is the root of an umbrella app. Otherwise the directory containing the single mix.exs that was found is chosen.
 ]],
     default_config = {
-      root_dir = '{{see description above}}',
+      root_dir = [[root_pattern("mix.exs", ".git") or vim.loop.os_homedir()]],
     },
   },
 }

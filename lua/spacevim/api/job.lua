@@ -10,6 +10,8 @@ local M = {}
 
 local uv = vim.loop
 
+local logger = require('spacevim.logger').derive('job')
+
 local _jobs = {}
 local _jobid = 0
 
@@ -79,9 +81,6 @@ function M.start(cmd, opts)
   local command = ''
   local argv = {}
   if type(cmd) == 'string' then
-    if cmd == '' then
-      return 0
-    end
     local shell = vim.fn.split(vim.o.shell)
     local shellcmdflag = vim.fn.split(vim.o.shellcmdflag)
     -- :call jobstart(split(&shell) + split(&shellcmdflag) + ['{cmd}'])
@@ -92,18 +91,7 @@ function M.start(cmd, opts)
     end
     table.insert(argv, cmd)
   elseif type(cmd) == 'table' then
-    if #cmd == 0 then
-      return 0
-    end
-    for _, v in ipairs(cmd) do
-      if type(v) ~= 'string' then
-        return 0
-      end
-    end
     command = cmd[1]
-    if command == '' then
-      return 0
-    end
     if vim.fn.executable(command) == 0 then
       return -1
     end
@@ -129,40 +117,23 @@ function M.start(cmd, opts)
   local exit_cb
   if opts.on_exit then
     exit_cb = function(code, singin)
-      if stdout and not stdout:is_closing() then
+      if stdout and stdout:is_active() then
         stdout:close()
       end
-      if stderr and not stderr:is_closing() then
+      if stderr and stderr:is_active() then
         stderr:close()
       end
-      if stdin and not stdin:is_closing() then
-        stdin:close()
-      end
-      local job = _jobs['jobid_' .. current_id]
-
-      if job and job.handle and not job.handle:is_closing() then
-        job.handle:close()
-      end
-
       vim.schedule(function()
         opts.on_exit(current_id, code, singin)
       end)
     end
   else
     exit_cb = function(code, singin)
-      if stdout and not stdout:is_closing() then
+      if stdout and stdout:is_active() then
         stdout:close()
       end
-      if stderr and not stderr:is_closing() then
+      if stderr and stderr:is_active() then
         stderr:close()
-      end
-      if stdin and not stdin:is_closing() then
-        stdin:close()
-      end
-      local job = _jobs['jobid_' .. current_id]
-
-      if job and job.handle and not job.handle:is_closing() then
-        job.handle:close()
       end
     end
   end
@@ -275,19 +246,15 @@ function M.chanclose(id, t)
   end
   if t == 'stdin' then
     local stdin = jobobj.state.stdin
-    if stdin and not stdin:is_closing() then
-      stdin:close()
+    if not stdin then
+      stdin:shutdown(function()
+        if stdin then
+          stdin:close()
+        end
+      end)
     end
   elseif t == 'stdout' then
-    local stdout = jobobj.state.stdout
-    if stdout and not stdout:is_closing() then
-      stdout:close()
-    end
   elseif t == 'stderr' then
-    local stderr = jobobj.state.stderr
-    if stderr and not stderr:is_closing() then
-      stderr:close()
-    end
   else
     error('the type only can be:stdout, stdin or stderr')
   end
@@ -300,7 +267,14 @@ function M.stop(id)
     return
   end
 
+  -- close stdio
+  local stdin = jobobj.state.stdin
+  if stdin and stdin:is_active() then
+    stdin:close()
+  end
+
   local handle = jobobj.handle
   handle:kill(6)
 end
+
 return M

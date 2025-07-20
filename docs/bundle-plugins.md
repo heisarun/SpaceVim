@@ -16,7 +16,6 @@ In `bundle/` directory, there are two kinds of plugins: forked plugins without c
   - [`chat` layer](#chat-layer)
   - [`cscope` layer](#cscope-layer)
   - [`lang#java` layer](#langjava-layer)
-  - [`lang#toml` layer](#langtoml-layer)
 - [No changed plugins](#no-changed-plugins)
   - [`autocomplete` layer](#autocomplete-layer)
   - [`core` layer](#core-layer-1)
@@ -44,6 +43,7 @@ In `bundle/` directory, there are two kinds of plugins: forked plugins without c
 
 These plugins are changed based on a specific version of origin plugin.
 
+- `vim-bookmarks`: based on [MattesGroeger/vim-bookmarks@3adeae1](https://github.com/MattesGroeger/vim-bookmarks/commit/3adeae10639edcba29ea80dafa1c58cf545cb80e)
 - `delimitMate`: based on [Raimondi/delimitMate@537a1da](https://github.com/Raimondi/delimitMate/tree/537a1da0fa5eeb88640425c37e545af933c56e1b)
 - `vim-toml`: based on [cespare/vim-toml@717bd87ef9](https://github.com/cespare/vim-toml/tree/717bd87ef928293e0cc6cfc12ebf2e007cb25311)
 - `neoformat`: based on [neoformat@f1b6cd50](https://github.com/sbdchd/neoformat/tree/f1b6cd506b72be0a2aaf529105320ec929683920)
@@ -57,7 +57,7 @@ These plugins are changed based on a specific version of origin plugin.
 
 #### `core` layer
 
-- [SpaceVim/neo-tree](https://github.com/SpaceVim/neo-tree.nvim)
+- `neo-tree`: based on [neo-tree@e3b4ef0f](https://github.com/nvim-neo-tree/neo-tree.nvim/tree/e3b4ef0fc05b0c99526ffb941abe23ef4fdc8e4e)
 - `clever-f.vim`: based on [clever-f.vim@fd370f2](https://github.com/rhysd/clever-f.vim/tree/fd370f27cca93918184a8043220cef1aa440a1fd)
 
 #### `edit` layer
@@ -79,10 +79,6 @@ These plugins are changed based on a specific version of origin plugin.
 #### `lang#java` layer
 
 - `vim-javacomplete2`: based on [artur-shaik/vim-javacomplete2@a716e32](https://github.com/artur-shaik/vim-javacomplete2/tree/a716e32bbe36daaed6ebc9aae76525aad9536245)
-
-#### `lang#toml` layer
-
-- `vim-toml`: based on [cespare/vim-toml@717bd87](https://github.com/cespare/vim-toml/tree/717bd87ef928293e0cc6cfc12ebf2e007cb25311)
 
 
 ### No changed plugins

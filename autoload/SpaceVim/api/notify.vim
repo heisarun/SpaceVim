@@ -29,12 +29,6 @@ scriptencoding utf-8
 
 let s:notifications = {}
 
-function! SpaceVim#api#notify#shared_notifys() abort
-
-  return s:notifications
-
-endfunction
-
 " dictionary values and functions
 
 let s:self = {}
@@ -300,10 +294,6 @@ function! s:self.redraw_windows() abort
   call self.__buffer.buf_set_lines(self.border.bufnr, 0 , -1, 0,
         \ self.draw_border(self.title, self.notification_width, s:msg_real_len(self.message)))
   call self.__buffer.buf_set_lines(self.bufnr, 0 , -1, 0, s:message_body(self.message))
-  if exists('*nvim_win_set_option')
-    call nvim_win_set_cursor(self.winid, [1, 0])
-    call nvim_win_set_cursor(self.border.winid, [1, 0])
-  endif
 endfunction
 
 

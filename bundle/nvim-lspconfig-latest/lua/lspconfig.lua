@@ -15,10 +15,6 @@ local function server_alias(name)
       to = 'fennel_ls',
       version = '0.2.0',
     },
-    ruby_ls = {
-      to = 'ruby_lsp',
-      version = '0.2.0',
-    },
     ['starlark-rust'] = {
       to = 'starlark_rust',
       version = '0.2.0',

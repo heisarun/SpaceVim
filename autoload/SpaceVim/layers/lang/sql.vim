@@ -83,8 +83,3 @@ function! SpaceVim#layers#lang#sql#health() abort
   call SpaceVim#layers#lang#sql#plugins()
   return 1
 endfunction
-function! SpaceVim#layers#lang#sql#loadable() abort
-
-  return 1
-
-endfunction

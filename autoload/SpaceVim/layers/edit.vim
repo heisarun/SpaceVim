@@ -99,9 +99,10 @@ endfunction
 
 function! SpaceVim#layers#edit#plugins() abort
   let plugins = [
+        \ [g:_spacevim_root_dir . 'bundle/vim-surround'],
         \ [g:_spacevim_root_dir . 'bundle/vim-repeat'],
-        \ [g:_spacevim_root_dir . 'bundle/vim-emoji', {'on_event' : 'BufReadPost'}],
-        \ [g:_spacevim_root_dir . 'bundle/vim-grammarous', {'merged' : 0, 'on_cmd' : ['GrammarousCheck', 'GrammarousReset']}],
+        \ [g:_spacevim_root_dir . 'bundle/vim-emoji'],
+        \ [g:_spacevim_root_dir . 'bundle/vim-grammarous', {'merged' : 0}],
         \ [g:_spacevim_root_dir . 'bundle/vim-expand-region', { 'loadconf' : 1}],
         \ [g:_spacevim_root_dir . 'bundle/vim-textobj-user'],
         \ [g:_spacevim_root_dir . 'bundle/vim-textobj-indent'],
@@ -111,16 +112,11 @@ function! SpaceVim#layers#edit#plugins() abort
         \ [g:_spacevim_root_dir . 'bundle/wildfire.vim',{'on_map' : '<Plug>(wildfire-'}],
         \ [g:_spacevim_root_dir . 'bundle/editorconfig-vim', { 'merged' : 0, 'if' : has('python') || has('python3')}],
         \ [g:_spacevim_root_dir . 'bundle/vim-jplus', { 'on_map' : '<Plug>(jplus' }],
-        \ [g:_spacevim_root_dir . 'bundle/tabular',           { 'merged' : 0, 'on_cmd' : ['Tabularize']}],
-        \ [g:_spacevim_root_dir . 'bundle/splitjoin.vim',{ 'on_cmd':['SplitjoinJoin', 'SplitjoinSplit'],'merged' : 0, 'loadconf' : 1}],
+        \ [g:_spacevim_root_dir . 'bundle/tabular',           { 'merged' : 0}],
+        \ ['andrewradev/splitjoin.vim',{ 'on_cmd':['SplitjoinJoin', 'SplitjoinSplit'],'merged' : 0, 'loadconf' : 1}],
         \ ]
-  if has('nvim-0.8.0')
-    call add(plugins,[g:_spacevim_root_dir . 'bundle/nvim-surround',        { 'merged' : 0, 'loadconf' : 1, 'on_event' : ['BufReadPost']}])
-  else
-    call add(plugins,[g:_spacevim_root_dir . 'bundle/vim-surround',        { 'merged' : 0, 'loadconf' : 1}])
-  endif
   if has('nvim-0.6.0') && s:enable_hop
-    call add(plugins,[g:_spacevim_root_dir . 'bundle/hop.nvim',        { 'merged' : 0, 'loadconf' : 1, 'on_cmd' : ['HopChar1', 'HopChar2', 'HopWord', 'HopLine']}])
+    call add(plugins,[g:_spacevim_root_dir . 'bundle/hop.nvim',        { 'merged' : 0, 'loadconf' : 1}])
   else
     call add(plugins,[g:_spacevim_root_dir . 'bundle/vim-easymotion',        { 'merged' : 0}])
     call add(plugins,[g:_spacevim_root_dir . 'bundle/vim-easyoperator-line',        { 'merged' : 0}])
@@ -321,6 +317,10 @@ function! SpaceVim#layers#edit#config() abort
   call SpaceVim#mapping#space#def('nmap', ['x', 'g', 'n'], '<Plug>(grammarous-move-to-next-error)', 'move-cursor-to-next-error', 0, 1)
   call SpaceVim#mapping#space#def('nmap', ['x', 'g', 'p'], '<Plug>(grammarous-move-to-previous-error)', 'move-cursor-to-previous-error', 0, 1)
 
+  let g:_spacevim_mappings_space.i = {'name' : '+Insertion'}
+  let g:_spacevim_mappings_space.i.l = {'name' : '+Lorem-ipsum'}
+  let g:_spacevim_mappings_space.i.p = {'name' : '+Passwords'}
+  let g:_spacevim_mappings_space.i.U = {'name' : '+UUID'}
   call SpaceVim#mapping#space#def('nnoremap', ['i', 'p', 1], 'call call('
         \ . string(s:_function('s:insert_simple_password')) . ', [])',
         \ 'insert-simple-password', 1)
@@ -1064,10 +1064,4 @@ endfunction
 
 function! SpaceVim#layers#edit#add_ft_head_tamplate(ft, tamp) abort
   call extend(s:ft_head_tp, {a:ft : a:tamp})
-endfunction
-
-function! SpaceVim#layers#edit#loadable() abort
-
-  return 1
-
 endfunction

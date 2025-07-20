@@ -11,12 +11,12 @@ echo "       \______/| ##____/ \_______/\_______/\_______/   \_/   |__|__/ |__/ 
 echo "               | ##                                                           "
 echo "               | ##                                                           "
 echo "               |__/                                                           "
-echo "                    版本: 2.4.0        中文官网: https://spacevim.org/cn/     "
+echo "                    版本: 2.3.0        中文官网: https://spacevim.org/cn/     "
 
 Push-Location ~
 
 $app_name    = "SpaceVim"
-$repo_url    = "https://github.com/SpaceVim/SpaceVim.git"
+$repo_url    = "https://spacevim.org/git/repos/SpaceVim/"
 $repo_name   = "SpaceVim"
 $repo_path   = "$HOME\.SpaceVim"
 
@@ -82,7 +82,7 @@ echo ""
 
 if (!(Test-Path "$HOME\.SpaceVim")) {
   echo "==> 正在安装 $app_name"
-  git clone --depth 1  $repo_url $repo_path
+  git clone $repo_url $repo_path
 } else {
   echo "==> 正在更新 $app_name"
   Push-Location $repo_path

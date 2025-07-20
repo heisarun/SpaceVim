@@ -37,17 +37,16 @@ function! SpaceVim#layers#github#plugins() abort
   return [
         \ [g:_spacevim_root_dir . 'bundle/github-issues.vim', {'merged' : 0, 'if' : has('python')}],
         \ [g:_spacevim_root_dir . 'bundle/vim-github-dashboard', {
-        \ 'merged' : 0,
-        \ 'if' : g:spacevim_if_ruby && has('ruby'),
-        \ 'on_cmd' : ['GHActivity', 'GHDashboard'],
-        \ }],
-        \ ['tyru/open-browser-github.vim',  {
-        \ 'depends': 'open-browser.vim',
-        \ 'on_cmd': ['OpenGithubFile', 'OpenGithubIssue', 'OpenGithubPullReq'],
-        \ }],
-        \ [g:_spacevim_root_dir . 'bundle/github.vim', {'merged' : 0}],
-        \ ['lambdalisue/vim-gista', {'merged' : 0, 'on_cmd' : ['Gista']}],
-        \ ]
+          \ 'merged' : 0,
+          \ 'if' : has('ruby'),
+          \ }],
+          \ ['tyru/open-browser-github.vim',  {
+            \ 'depends': 'open-browser.vim',
+            \ 'on_cmd': ['OpenGithubFile', 'OpenGithubIssue', 'OpenGithubPullReq'],
+            \ }],
+            \ [g:_spacevim_root_dir . 'bundle/github.vim', {'merged' : 0}],
+            \ ['lambdalisue/vim-gista', {'merged' : 0}],
+            \ ]
 endfunction
 
 function! SpaceVim#layers#github#config() abort
@@ -82,7 +81,7 @@ function! SpaceVim#layers#github#config() abort
   endif
   "" }}}
 
-  if g:spacevim_if_ruby && has('ruby')
+  if has('ruby')
     " vim-github-dashboard requires if_ruby
     let g:github_dashboard = {
           \ 'username': g:spacevim_github_username,
@@ -128,15 +127,4 @@ function! s:update_stared_repo_list() abort
     call add(g:unite_source_menu_menus.MyStarredrepos.command_candidates, [description,cmd])
   endfor
   return 1
-endfunction
-
-
-function! SpaceVim#layers#github#set_variable(var) abort
-
-endfunction
-
-function! SpaceVim#layers#github#loadable() abort
-
-  return 1
-
-endfunction
+  endf

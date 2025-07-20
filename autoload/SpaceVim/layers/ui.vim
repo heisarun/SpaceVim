@@ -79,9 +79,9 @@ let s:NVIM_VERSION = SpaceVim#api#import('neovim#version')
 
 function! SpaceVim#layers#ui#plugins() abort
   let plugins = [
-        \ [g:_spacevim_root_dir . 'bundle/vim-cursorword', {'merged' : 0, 'on_event' : ['CursorMoved', 'CursorMovedI']}],
+        \ [g:_spacevim_root_dir . 'bundle/vim-cursorword', {'merged' : 0}],
         \ [g:_spacevim_root_dir . 'bundle/tagbar',
-        \ {'loadconf' : 1, 'merged' : 0, 'on_cmd' : ['TagbarToggle', 'Tagbar']}],
+        \ {'loadconf' : 1, 'merged' : 0}],
         \ [g:_spacevim_root_dir . 'bundle/tagbar-makefile.vim',
         \ {'merged': 0}],
         \ [g:_spacevim_root_dir . 'bundle/tagbar-proto.vim', {'merged': 0}],
@@ -101,7 +101,7 @@ function! SpaceVim#layers#ui#plugins() abort
   if (has('nvim-0.5.0') && s:NVIM_VERSION.is_release_version())
         \ || has('nvim-0.6.0')
     call add(plugins, [g:_spacevim_root_dir . 'bundle/indent-blankline.nvim',
-          \ { 'merged' : 0, 'on_event' : ['BufReadPost']}])
+          \ { 'merged' : 0}])
   else
     call add(plugins, [g:_spacevim_root_dir . 'bundle/indentLine',
           \ { 'merged' : 0}])
@@ -111,10 +111,6 @@ function! SpaceVim#layers#ui#plugins() abort
           \ { 'merged' : 0,
           \ 'loadconf' : 1}])
     call add(plugins, [g:_spacevim_root_dir . 'bundle/vim-airline-themes',
-          \ { 'merged' : 0}])
-  endif
-  if s:enable_scrollbar
-    call add(plugins, [g:_spacevim_root_dir . 'bundle/scrollbar.vim',
           \ { 'merged' : 0}])
   endif
 
@@ -175,8 +171,20 @@ function! SpaceVim#layers#ui#config() abort
     noremap <silent> <F2> :TagbarToggle<CR>
   endif
 
+  " this options only support neovim now.
   augroup spacevim_layer_ui
     autocmd!
+    let events = join(filter( ['BufEnter','WinEnter', 'QuitPre', 'CursorMoved', 'VimResized', 'FocusGained', 'WinScrolled' ], 'exists("##" . v:val)'), ',')
+    if s:enable_scrollbar && SpaceVim#plugins#scrollbar#usable()
+      exe printf('autocmd %s * call SpaceVim#plugins#scrollbar#show()',
+            \ events)
+      autocmd WinLeave,BufLeave,BufWinLeave,FocusLost
+            \ * call SpaceVim#plugins#scrollbar#clear()
+      " why this autocmd is needed?
+      "
+      " because the startify use noautocmd enew
+      autocmd User Startified call s:clear_previous_scrollbar()
+    endif
     if !empty(s:cursorword_exclude_filetypes)
       exe printf('autocmd FileType %s let b:cursorword = 0',
             \ join(s:cursorword_exclude_filetypes, ','))
@@ -634,6 +642,11 @@ function! SpaceVim#layers#ui#set_variable(var) abort
         \ ))
 endfunction
 
+function! s:clear_previous_scrollbar() abort
+  let bufnr = bufnr('#')
+  call SpaceVim#plugins#scrollbar#clear(bufnr)
+endfunction
+
 function! SpaceVim#layers#ui#health() abort
   call SpaceVim#layers#ui#plugins()
   call SpaceVim#layers#ui#config()
@@ -707,10 +720,4 @@ function! s:reduce_font() abort
   let font_size -= 1
   let &guifont = substitute(&guifont, ':h\d\+', ':h' . font_size, '')
   sleep 100m
-endfunction
-
-function! SpaceVim#layers#ui#loadable() abort
-
-  return 1
-
 endfunction

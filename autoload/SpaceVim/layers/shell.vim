@@ -200,20 +200,6 @@ function! s:open_default_shell(open_with_file_cwd) abort
             \ })
 
     exe win_id2win(s:term_win_id) .  'wincmd w'
-  elseif s:default_position ==# 'center-float' && exists('*nvim_open_win')
-    let s:term_win_id =  nvim_open_win(bufnr('%'), v:true,
-          \ {
-            \ 'relative': 'editor',
-            \ 'width'   : &columns - 10, 
-            \ 'height'  : &lines - 10,
-            \ 'row': 5,
-            \ 'border' : 'single',
-            \ 'col': 5
-            \ })
-
-    exe win_id2win(s:term_win_id) .  'wincmd w'
-
-  call nvim_set_option_value('winhighlight', 'NormalFloat:Normal,FloatBorder:WinSeparator', { 'win' : s:term_win_id})
   else
     " no terminal window found. Open a new window
     let cmd = s:default_position ==# 'float' ?
@@ -317,10 +303,4 @@ function! SpaceVim#layers#shell#health() abort
   call SpaceVim#layers#shell#plugins()
   call SpaceVim#layers#shell#config()
   return 1
-endfunction
-
-function! SpaceVim#layers#shell#loadable() abort
-
-  return 1
-
 endfunction

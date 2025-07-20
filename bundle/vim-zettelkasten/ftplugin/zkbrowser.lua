@@ -12,11 +12,14 @@ vim.opt_local.iskeyword:append(':')
 vim.opt_local.iskeyword:append('-')
 vim.opt_local.suffixesadd:append('.md')
 vim.opt_local.errorformat = '%f:%l: %m'
-vim.opt_local.keywordprg = ':ZkHover -preview'
-vim.opt_local.tagfunc = 'v:lua.zettelkasten.tagfunc'
 
-local win = require('spacevim.api.vim.window')
-local hi = require('spacevim.api.vim.highlight')
+if vim.opt_local.keywordprg:get() == '' then
+  vim.opt_local.keywordprg = ':ZkHover -preview'
+end
+
+if vim.opt_local.tagfunc:get() == '' then
+  vim.opt_local.tagfunc = 'v:lua.zettelkasten.tagfunc'
+end
 
 require('zettelkasten').add_hover_command()
 
@@ -28,62 +31,28 @@ if vim.fn.mapcheck('[I', 'n') == '' then
     '<CMD>lua require("zettelkasten").show_back_references(vim.fn.expand("<cword>"))<CR>',
     { noremap = true, silent = true, nowait = true }
   )
-  vim.api.nvim_buf_set_keymap(0, 'n', 'q', '', {
-    noremap = true,
-    silent = true,
-    nowait = true,
-    callback = function()
-      if vim.fn.tabpagenr('$') > 1 and win.is_last_win() then
-        vim.cmd('quit')
-        return
-      end
-      local ok = pcall(function()
-        vim.cmd('b#')
-      end)
-
-      if not ok then
-        vim.cmd('bd')
-      end
-    end,
-  })
-  vim.api.nvim_buf_set_keymap(0, 'n', '<C-l>', '', {
-    noremap = true,
-    silent = true,
-    nowait = true,
-    callback = function()
-      vim.cmd('ZkBrowse')
-    end,
-  })
-  vim.api.nvim_buf_set_keymap(0, 'n', '<LeftRelease>', '', {
-    noremap = true,
-    silent = true,
-    nowait = true,
-    callback = function()
-      if hi.syntax_at() == 'ZettelKastenTags' then
-        vim.cmd('ZkBrowse #' .. vim.fn.expand('<cword>') )
-
-      end
-    end,
-  })
-  vim.api.nvim_buf_set_keymap(0, 'n', '<F2>', '', {
-    noremap = true,
-    silent = true,
-    nowait = true,
-    callback = function()
-      require('zettelkasten.sidebar').open_tag_tree()
-    end,
-  })
-  vim.api.nvim_buf_set_keymap(0, 'n', '<Enter>', '', {
-    noremap = true,
-    silent = true,
-    nowait = true,
-    callback = function()
-      vim.cmd('normal 0gf')
-    end,
-  })
+  vim.api.nvim_buf_set_keymap(
+    0,
+    'n',
+    'q',
+    ':bd!<cr>',
+    { noremap = true, silent = true, nowait = true }
+  )
 end
 
 local config = require('zettelkasten.config')
 if config.zettel_dir ~= '' then
   vim.cmd('lcd ' .. config.zettel_dir)
 end
+
+vim.api.nvim_create_autocmd({ 'BufEnter' }, {
+  group = vim.api.nvim_create_augroup('zettelkasten_browser_events', { clear = true }),
+  buffer = vim.api.nvim_get_current_buf(),
+  callback = function(opts)
+    vim.opt_local.syntax = ''
+    vim.opt_local.modifiable = true
+    vim.api.nvim_buf_set_lines(0, 0, -1, false, require('zettelkasten').get_note_browser_content())
+    vim.opt_local.syntax = 'zkbrowser'
+    vim.opt_local.modifiable = false
+  end,
+})

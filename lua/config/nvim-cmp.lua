@@ -43,12 +43,7 @@ end
 
 local function enter(f) -- {{{
   if copt.auto_completion_return_key_behavior == 'complete' then
-    if cmp.visible() then
-      cmp.mapping.confirm({ select = false })
-      return cmp.close()
-    else
-      pcall(f)
-    end
+    cmp.mapping.confirm({ select = false })
   elseif copt.auto_completion_return_key_behavior == 'smart' then
     expand_snippet(nil)
     if cmp.visible() then
@@ -57,11 +52,6 @@ local function enter(f) -- {{{
     else
       pcall(f)
     end
-  elseif copt.auto_completion_return_key_behavior == 'nil' then
-    if cmp.visible() then
-      cmp.close()
-    end
-    pcall(f)
   end
 end
 -- }}}

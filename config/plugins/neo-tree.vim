@@ -1,4 +1,5 @@
 let s:WIN = SpaceVim#api#import('vim#window')
+nnoremap <silent> <F3> <cmd>NeoTreeFocusToggle<CR>
 augroup vfinit
   au!
   autocmd FileType neo-tree call s:nvim_tree_init()

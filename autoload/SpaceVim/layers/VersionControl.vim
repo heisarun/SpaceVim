@@ -21,10 +21,6 @@ scriptencoding utf-8
 "   SPC g .         version control transient state
 " <
 
-if exists('s:CMP')
-  finish
-endif
-
 let s:CMP = SpaceVim#api#import('vim#compatible')
 
 let s:enable_gtm_status = 0
@@ -93,7 +89,7 @@ function! s:git_branch() abort
       endif
     catch
     endtry
-  else
+  elseif exists('g:loaded_git')
       let prefix = g:spacevim_statusline_unicode ? '' : ''
       return printf('%%{git#branch#current("%s")}', prefix)
   endif
@@ -514,12 +510,6 @@ function! s:git_transient_state() abort
         \ }
         \ )
   call state.open()
-endfunction
-
-function! SpaceVim#layers#VersionControl#loadable() abort
-
-  return 1
-
 endfunction
 
 " function() wrapper {{{

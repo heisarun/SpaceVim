@@ -274,18 +274,18 @@ endfunction
 
 
 function! s:_lookup_sort(a, b) abort
-  let al = strlen(a:a)
-  let bl = strlen(a:b)
+  if a:a[1] < a:b[1]
+    return -1
+  elseif a:a[1] > a:b[1]
+    return 1
+  endif
+
+  let al = strlen(a:a[0])
+  let bl = strlen(a:b[0])
 
   if al < bl
     return -1
   elseif al > bl
-    return 1
-  endif
-
-  if a:a < a:b
-    return -1
-  elseif a:a > a:b
     return 1
   endif
 
@@ -295,21 +295,20 @@ endfunction
 
 " Find helptag using a pattern and print the results.
 function! helpful#lookup(pattern) abort
-  " Remove @{lang} pattern
-  let pattern = substitute(a:pattern, '.\+\zs@\w\+$', '', '')
-
   call s:load_data()
-
   let tags = []
   let width = 0
+
   for tag in keys(s:data)
-    if stridx(tolower(tag), tolower(pattern)) >= 0
-      call add(tags, tag)
+    let m = match(tag, a:pattern)
+    if m != -1
+      call add(tags, [tag, m])
       let width = max([width, strlen(tag)])
     endif
   endfor
 
-  for tag in sort(tags, 's:_lookup_sort')
+  let s:search_pattern = a:pattern
+  for [tag, _] in sort(tags, 's:_lookup_sort')
     call s:helptag_version(tag, width)
   endfor
 endfunction

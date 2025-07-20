@@ -9,21 +9,16 @@ description: "The goals, credits and contact information about SpaceVim."
 
 - [History](#history)
 - [Goals](#goals)
+- [Contact](#contact)
 - [Credits & Thanks](#credits--thanks)
 
 <!-- vim-markdown-toc -->
 
 ## History
 
-This project started in December 2016, and currently maintained by [Eric Wong](https://wsdjeg.net).
-
-```diff
-commit 0c95bd8987c124837afef9a271e1b3c4c19a449b
-Author: Wang Shidong <wsdjeg@users.noreply.github.com>
-Date:   Sun Dec 25 22:40:55 2016 -0600
-
-    Initial commit
-```
+SpaceVim started in December 2016 as a spin-off from @wsdjeg's [DotFiles repository](https://github.com/wsdjeg/DotFiles).
+An early idea for modular configuration came from the Vim configuration by airline's author.
+The earliest version was further influenced by spacemacs' layer concept.
 
 ## Goals
 
@@ -33,7 +28,17 @@ Date:   Sun Dec 25 22:40:55 2016 -0600
 - Cross-platform consistency
 - Fast start up and efficient operation
 
+## Contact
+
+You can get in touch with the maintainer by send email to [support@spacevim.org](mailto:support@spacevim.org).
+Your message will be sent to our teams, who will get back to you as soon as they can.
+Please be advised that weekends and public holidays might delay response time.
+
 ## Credits & Thanks
+
+This project exists thanks to all the people who have contributed:
+
+<a href="https://github.com/SpaceVim/SpaceVim/graphs/contributors"><img src="https://opencollective.com/spacevim/contributors.svg?width=890&button=false" /></a>
 
 - [Hack-SpaceVim](https://github.com/Gabirel/Hack-SpaceVim) by [@Gabirel](https://github.com/Gabirel)
 - [SpaceVimTutorial](https://everettjf.gitbooks.io/spacevimtutorial/content/) by [@everettjf](https://github.com/everettjf)

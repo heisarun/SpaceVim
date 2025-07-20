@@ -242,16 +242,4 @@ function! SpaceVim#layers#core#banner#health() abort
   return 1
 endfunction
 
-function! SpaceVim#layers#core#banner#loadable() abort
-
-  return 1
-
-endfunction
-
-function! SpaceVim#layers#core#banner#plugins() abort
-
-  return []
-
-endfunction
-
 " vim:set et sw=2:

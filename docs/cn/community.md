@@ -13,8 +13,10 @@ lang: zh
 - [资讯](#资讯)
 - [寻求帮助](#寻求帮助)
 - [问题反馈](#问题反馈)
+- [其他](#其他)
 
 <!-- vim-markdown-toc -->
+
 
 ## 资讯
 
@@ -28,8 +30,19 @@ lang: zh
 
 - [FAQ](../faq/): 常见问题及相应的解答。
 - [使用文档](../documentation/): 完整的 SpaceVim 使用文档。
-- [聊天室](https://app.element.io/#/room/#spacevim-cn:matrix.org): SpaceVim 中文用户聊天室.
 
 ## 问题反馈
 
-在使用过程中如果遇到问题或者是有什么建议，可以使用 [Github Issue](https://github.com/SpaceVim/SpaceVim/issues) 进行反馈。
+在正常使用 SpaceVim 时，如果遇到 Bug 或者有新的特性需求可以通过邮件列表来提交。
+
+发送邮件至 [spacevim-cn@googlegroups.com](mailto:spacevim-cn@googlegroups.com)
+
+如需订阅该邮件组，可以发送任意邮件至：[spacevim-cn+subscribe@googlegroups.com](mailto:spacevim-cn+subscribe@googlegroups.com)
+
+## 其他
+
+- Matrix room: [`#spacevim-cn:matrix.org`](https://app.element.io/#/room/#spacevim-cn:matrix.org)
+- Telegram group: [`t.me/SpaceVim_CN`](https://t.me/SpaceVim_CN)
+- Reddit: [`/r/SpaceVim/`](https://www.reddit.com/r/SpaceVim/)
+- Discord: [`#spacevim-cn`](https://discord.gg/g3MGdNB)
+- Slack: [SpaceVim](https://join.slack.com/t/spacevim/shared_invite/zt-74w64lg5-bT~~2~zEhtIy1zow53tHJg)

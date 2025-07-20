@@ -167,9 +167,3 @@ function! SpaceVim#layers#lang#clojure#health() abort
   call SpaceVim#layers#lang#clojure#config()
   return 1
 endfunction
-
-function! SpaceVim#layers#lang#clojure#loadable() abort
-
-  return 1
-
-endfunction

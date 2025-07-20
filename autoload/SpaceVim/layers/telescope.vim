@@ -10,10 +10,6 @@ if exists('s:file')
   finish
 endif
 
-let s:telescope_hidden = v:false
-
-let s:telescope_no_ignore = v:false
-
 ""
 " @section telescope, layers-telescope
 " @parentsection layers
@@ -49,9 +45,7 @@ endfunction
 
 function! SpaceVim#layers#telescope#plugins() abort
   let plugins = []
-  if  has('nvim-0.10.0')
-    call add(plugins, [g:_spacevim_root_dir . 'bundle/telescope.nvim-0.1.8', {'merged' : 0, 'loadconf' : 1}])
-  elseif  has('nvim-0.7.2')
+  if  has('nvim-0.7.2')
     call add(plugins, [g:_spacevim_root_dir . 'bundle/telescope.nvim-0.1.5', {'merged' : 0, 'loadconf' : 1}])
   elseif has('nvim-0.7.0')
     call add(plugins, [g:_spacevim_root_dir . 'bundle/telescope.nvim-0.1.2', {'merged' : 0, 'loadconf' : 1}])
@@ -155,7 +149,7 @@ function! SpaceVim#layers#telescope#config() abort
 
   let lnum = expand('<slnum>') + s:lnum - 1
   call SpaceVim#mapping#space#def('nnoremap', ['p', 'f'],
-        \ join(['Telescope find_files ', s:telescope_hidden ? 'hidden=true' : 'hidden=false', s:telescope_no_ignore ? 'no_ignore=true' : 'no_ignore=false'], ' '),
+        \ 'Telescope find_files',
         \ ['find-files-in-project',
         \ [
         \ '[SPC p f] is to find files in the root of the current project',
@@ -165,7 +159,7 @@ function! SpaceVim#layers#telescope#config() abort
         \ ]
         \ , 1)
 
-  call execute('nnoremap <silent> <C-p> :<C-u>' .. join(['Telescope find_files ', s:telescope_hidden ? 'hidden=true' : 'hidden=false', s:telescope_no_ignore ? 'no_ignore=true' : 'no_ignore=false'], ' ') .. '<cr>')
+  nnoremap <silent> <C-p> :<C-u>Telescope find_files<cr>
 
   let lnum = expand('<slnum>') + s:lnum - 1
   call SpaceVim#mapping#space#def('nnoremap', ['h', 'i'], 'call call('
@@ -185,23 +179,21 @@ function! SpaceVim#layers#telescope#config() abort
   call s:defind_fuzzy_finder()
 
   " this autocmd should only be called when using deoplete
-  augroup spacevim_telescope_layer
-    autocmd!
-    if g:spacevim_autocomplete_method == 'deoplete'
+  if g:spacevim_autocomplete_method == 'deoplete'
+    augroup spacevim_telescope_layer
+      autocmd!
       " https://github.com/nvim-telescope/telescope.nvim/issues/161
       autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
-    endif
-    " @fixme 无法移除 jk 映射
-    " autocmd FileType TelescopePrompt iunmap <buffer> jk
-  augroup END
+    augroup END
+  endif
 endfunction
 
 function! s:get_help_with_cursor_symbol() abort
-  exe 'Telescope help_tags default_text=' . expand('<cword>')
+  call v:lua.require('telescope.builtin').help_tags({ 'default_text' : expand('<cword>')}) 
 endfunction
 
 function! s:get_help(word) abort
-  exe 'Telescope help_tags default_text=' . a:word
+  call v:lua.require('telescope.builtin').help_tags({ 'default_text' : a:word}) 
 endfunction
 
 function! s:get_menu(menu, input) abort
@@ -343,20 +335,6 @@ function! s:defind_fuzzy_finder() abort
   endif
 
 
-  if SpaceVim#layers#isLoaded('tools')
-    nnoremap <silent> <Leader>fb  :<C-u>Telescope bookmarks<CR>
-    let lnum = expand('<slnum>') + s:unite_lnum - 4
-    let g:_spacevim_mappings.f.b = ['Telescope bookmarks',
-          \ 'fuzzy find bookmarks',
-          \ [
-          \ '[Leader f b] is to fuzzy find bookmarks',
-          \ '',
-          \ 'Definition: ' . s:file . ':' . lnum,
-          \ ]
-          \ ]
-  endif
-
-
   let lnum = expand('<slnum>') + s:unite_lnum - 4
   call SpaceVim#mapping#space#def('nnoremap', ['f', 'v', 's'], 'Telescope scriptnames',
         \ ['open-custom-configuration',
@@ -389,18 +367,5 @@ endif
 function! SpaceVim#layers#telescope#health() abort
 
   return 1
-
-endfunction
-
-function! SpaceVim#layers#telescope#set_variable(var) abort
-
-  let s:telescope_hidden = get(a:var, 'hidden', s:telescope_hidden)
-  let s:telescope_no_ignore = get(a:var, 'no_ignore', s:telescope_no_ignore)
-
-endfunction
-
-function! SpaceVim#layers#telescope#get_options() abort
-
-  return []
 
 endfunction

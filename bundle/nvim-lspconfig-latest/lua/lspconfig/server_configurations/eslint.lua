@@ -40,11 +40,6 @@ local root_file = {
   '.eslintrc.yml',
   '.eslintrc.json',
   'eslint.config.js',
-  'eslint.config.mjs',
-  'eslint.config.cjs',
-  'eslint.config.ts',
-  'eslint.config.mts',
-  'eslint.config.cts',
 }
 
 return {
@@ -69,7 +64,7 @@ return {
     -- Refer to https://github.com/Microsoft/vscode-eslint#settings-options for documentation.
     settings = {
       validate = 'on',
-      packageManager = nil,
+      packageManager = 'npm',
       useESLintClass = false,
       experimental = {
         useFlatConfig = false,
@@ -111,14 +106,7 @@ return {
       }
 
       -- Support flat config
-      if
-        vim.fn.filereadable(new_root_dir .. '/eslint.config.js') == 1
-        or vim.fn.filereadable(new_root_dir .. '/eslint.config.mjs') == 1
-        or vim.fn.filereadable(new_root_dir .. '/eslint.config.cjs') == 1
-        or vim.fn.filereadable(new_root_dir .. '/eslint.config.ts') == 1
-        or vim.fn.filereadable(new_root_dir .. '/eslint.config.mts') == 1
-        or vim.fn.filereadable(new_root_dir .. '/eslint.config.cts') == 1
-      then
+      if vim.fn.filereadable(new_root_dir .. '/eslint.config.js') == 1 then
         config.settings.experimental.useFlatConfig = true
       end
 

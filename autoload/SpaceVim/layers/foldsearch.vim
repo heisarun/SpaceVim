@@ -40,35 +40,11 @@ function! SpaceVim#layers#foldsearch#health() abort
   return 1
 endfunction
 
-function! SpaceVim#layers#foldsearch#plugins() abort
-
-  return []
-
-endfunction
-
-function! SpaceVim#layers#foldsearch#set_variable(var) abort
-
-  
-
-endfunction
-
-function! SpaceVim#layers#foldsearch#get_options() abort
-
-  return []
-
-endfunction
-
-function! SpaceVim#layers#foldsearch#loadable() abort
-
-  return 1
-
-endfunction
-
 let s:filename = expand('<sfile>:~')
 let s:lnum = expand('<slnum>') + 2
 function! SpaceVim#layers#foldsearch#config()
 
-  let g:_spacevim_mappings_space.F.name = '+Foldsearch/Tabs'
+  let g:_spacevim_mappings_space.F = {'name' : '+Foldsearch'}
   let lnum = expand('<slnum>') + s:lnum - 1
   call SpaceVim#mapping#space#def('nnoremap', ['F', 'w'], 'call call('
         \ . string(s:_function('s:foldsearch_word')) . ', [])',

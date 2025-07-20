@@ -13,7 +13,7 @@ local buffer = require('spacevim.api.vim.buffer')
 
 local default_conf = {
   max_size = 10,
-  min_size = 5,
+  min_size = 3,
   width = 1,
   right_offset = 1,
   excluded_filetypes = {
@@ -82,12 +82,6 @@ local function create_scrollbar_buffer(size, lines)
 end
 
 function M.show()
-  for _, ft in ipairs(get('excluded_filetypes')) do
-    if ft == vim.o.filetype then
-      M.clear()
-      return
-    end
-  end
   local saved_ei = vim.o.eventignore
   vim.o.eventignore = 'all'
   local winnr = vim.fn.winnr()
@@ -147,9 +141,9 @@ function M.show()
     scrollbar_bufnr = create_scrollbar_buffer(bar_size, bar_lines)
     scrollbar_winid = vim.api.nvim_open_win(scrollbar_bufnr, false, opts)
     -- vim.fn.setwinvar(
-    -- vim.fn.win_id2win(scrollbar_winid),
-    -- '&winhighlight',
-    -- 'Normal:ScrollbarWinHighlight'
+      -- vim.fn.win_id2win(scrollbar_winid),
+      -- '&winhighlight',
+      -- 'Normal:ScrollbarWinHighlight'
     -- )
   end
   add_highlight(scrollbar_winid, scrollbar_size)

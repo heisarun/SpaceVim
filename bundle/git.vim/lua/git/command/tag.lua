@@ -72,20 +72,7 @@ function M.run(argv)
   end
 end
 
-local function get_all_tags()
-  return vim.fn.systemlist('git tag')
-end
-
-function M.complete(ArgLead, CmdLine, CursorPos)
-  local str = string.sub(CmdLine, 1, CursorPos)
-  if vim.regex([[^Git\s\+tag\s\+-\+$]]):match_str(str) then
-    return table.concat({'--list', '-l', '-m', '-a', '-d'}, '\n')
-  elseif vim.regex([[^Git\s\+tag\s\+.*-d\s\+[^ -]*$]]):match_str(str) then
-    return table.concat(get_all_tags(), '\n')
-  else
-    return ''
-  end
-end
+function M.complete(ArgLead, CmdLine, CursorPos) end
 
 return M
 

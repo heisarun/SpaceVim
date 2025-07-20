@@ -48,13 +48,6 @@ endif
 " <
 "
 
-function! SpaceVim#layers#lang#scheme#plugins() abort
-
-  return []
-
-endfunction
-
-
 function! SpaceVim#layers#lang#scheme#config() abort
   if s:scheme_dialect ==# 'mit-scheme'
     if has('win32')
@@ -112,10 +105,4 @@ endfunction
 function! SpaceVim#layers#lang#scheme#health() abort
   call SpaceVim#layers#lang#scheme#config()
   return 1
-endfunction
-
-function! SpaceVim#layers#lang#scheme#loadable() abort
-
-  return 1
-
 endfunction

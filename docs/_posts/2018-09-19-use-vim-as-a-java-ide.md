@@ -7,7 +7,6 @@ lang: zh
 type: article
 comments: true
 commentsID: "使用 Vim 搭建 Java 开发环境"
-language: Java
 ---
 
 # [Blogs](../blog/) > 使用 Vim 搭建 Java 开发环境

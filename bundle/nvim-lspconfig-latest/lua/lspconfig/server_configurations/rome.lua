@@ -24,8 +24,6 @@ https://rome.tools
 
 Language server for the Rome Frontend Toolchain.
 
-(Unmaintained, use [Biome](https://biomejs.dev/blog/annoucing-biome) instead.)
-
 ```sh
 npm install [-g] rome
 ```

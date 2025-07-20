@@ -6,7 +6,6 @@ description: "A general guide for using SpaceVim as TypeScript IDE, including la
 type: article
 comments: true
 commentsID: "Use Vim as a TypeScript IDE"
-language: TypeScript
 ---
 
 # [Blogs](../blog/) >> Use Vim as a TypeScript IDE

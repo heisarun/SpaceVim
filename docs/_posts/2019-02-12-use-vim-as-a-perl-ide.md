@@ -6,7 +6,6 @@ description: "A general guide for using SpaceVim as Perl IDE, including layer co
 type: article
 comments: true
 commentsID: "Use Vim as a Perl IDE"
-language: Perl
 ---
 
 # [Blogs](../blog/) >> Use Vim as a Perl IDE

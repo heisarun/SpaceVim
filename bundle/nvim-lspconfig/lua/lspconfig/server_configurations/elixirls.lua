@@ -2,13 +2,12 @@ local util = require 'lspconfig.util'
 
 return {
   default_config = {
-    filetypes = { 'elixir', 'eelixir' },
+    filetypes = { 'elixir', 'eelixir', 'heex' },
     root_dir = function(fname)
       return util.root_pattern('mix.exs', '.git')(fname) or vim.loop.os_homedir()
     end,
   },
   docs = {
-    package_json = 'https://raw.githubusercontent.com/elixir-lsp/vscode-elixir-ls/master/package.json',
     description = [[
 https://github.com/elixir-lsp/elixir-ls
 

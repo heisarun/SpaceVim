@@ -8,7 +8,10 @@ return {
     init_options = { hostInfo = 'neovim' },
     cmd = cmd,
     filetypes = { 'cairo' },
-    root_dir = util.root_pattern('Scarb.toml', 'cairo_project.toml', '.git'),
+    root_dir = function(fname)
+      return util.root_pattern 'Scarb.toml'(fname)
+        or util.root_pattern('Scarb.toml', 'cairo_project.toml', '.git')(fname)
+    end,
   },
   docs = {
     description = [[
@@ -24,7 +27,7 @@ require'lspconfig'.cairo_ls.setup{}
 *cairo-language-server is still under active development, some features might not work yet !*
 ]],
     default_config = {
-      root_dir = [[root_pattern("Scarb.toml", "cairo_project.toml", ".git")]],
+      root_dir = [[root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git")]],
     },
   },
 }

@@ -3,7 +3,7 @@ title: SpaceVim release v2.3.0
 categories: [changelog, blog]
 description: "SpaceVim release v2.3.0 with more lua plugins and better experience."
 type: article
-image: https://img.spacevim.org/release-v2.3.0.png
+image: https://img.spacevim.org/release-v2.2.0.png
 commentsID: "SpaceVim release v2.3.0"
 ---
 
@@ -24,7 +24,7 @@ The last release is v2.2.0, After 9 months development.
 The v2.3.0 has been released.
 So let's take a look at what happened since last release.
 
-![welcome page](https://img.spacevim.org/release-v2.3.0.png)
+![welcome page](https://img.spacevim.org/release-v2.2.0.png)
 
 - [Quick start guide](../quick-start-guide/): installation, configuration, and resources of learning SpaceVim
 - [documentation](../documentation/): the primary official document of SpaceVim

@@ -4,7 +4,7 @@ description: "这一模块为 SpaceVim 提供了mpv支持，可快速查找光�
 lang: zh
 ---
 
-# [可用模块](../../) >> tools#mpv
+# [可用模块](../) >> tools#mpv
 
 <!-- vim-markdown-toc GFM -->
 

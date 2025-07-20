@@ -1,69 +1,70 @@
 # vim-zettelkasten
 
-> _vim-zettelkasten_ is a [Zettelkasten](https://zettelkasten.de) note taking plugin, which is forked from [zettelkasten.nvim@fe174666](https://github.com/Furkanzmc/zettelkasten.nvim/tree/fe1746666e27c2fcc0e60dc2786cb9983b994759).
+`vim-zettelkasten` is a [Zettelkasten](https://zettelkasten.de) note taking plugin.
 
-[![](https://spacevim.org/img/build-with-SpaceVim.svg)](https://spacevim.org)
-[![GPLv3 License](https://img.spacevim.org/license-GPLv3-blue.svg)](LICENSE)
+It is based on [zettelkasten.nvim@fe174666](https://github.com/Furkanzmc/zettelkasten.nvim/tree/fe1746666e27c2fcc0e60dc2786cb9983b994759)
 
-<!-- vim-markdown-toc GFM -->
+Using this plugin, you can:
 
-- [Install](#install)
-- [Usage](#usage)
-- [Screenshots](#screenshots)
-- [Feedback](#feedback)
+1. Create new notes with unique IDs (`:help :ZkNew`)
 
-<!-- vim-markdown-toc -->
+2. List the places where a tag is used with `:tselect tag_name` or use Vim's own tag shortcuts for
+   navigation.
 
-## Install
+3. Use `i_CTRL-X_CTRL-]` to get a list of all the tags in your notes.
 
-1. Using `vim-zettelkasten` in SpaceVim:
+4. Get a completion list of note references.
 
-```toml
-[[layers]]
-  name = 'zettelkasten'
-  zettel_dir = 'D:\me\zettelkasten'
-  zettel_template_dir = 'D:\me\zettelkasten_template'
-```
+5. Use `K` command to display context for a note ID.
 
-2. Using `vim-zettelkasten` without SpaceVim:
+6. Use `gf` to navigate to a reference. As long as your `:help path` option is set correctly, this
+   will work.
 
-```vim
-Plug 'wsdjeg/vim-zettelkasten'
-let g:zettelkasten_directory = 'D:\me\zettelkasten'
-let g:zettelkasten_template_directory = 'D:\me\zettelkasten_template'
-```
+There's no separate file type for zettelkasten. Markdown file type is used to extend the
+functionality to make it easier to take notes.
 
-## Usage
+For the most up to date information, please do `:help zettelkasten.txt`. I won't be updating README
+file for every single feature or update. You can also check out the
+[wiki](https://github.com/Furkanzmc/zettelkasten.nvim/wiki) for tips and tricks on how to use
+zettelkasten.nvim.
 
-**Commands:**
+# Configuration
 
-| Command           | description                       |
-| ----------------- | --------------------------------- |
-| `:ZkNew`          | create new note                   |
-| `:ZkBrowse`       | list note in browser window       |
-| `:ZkListTags`     | filter tags in telescope          |
-| `:ZkListTemplete` | filte note templates in telescope |
+See `:help zettelkasten.txt` for more information.
 
-**Key bindings in browser window:**
+# TODO
 
-| key bindings    | description                        |
-| --------------- | ---------------------------------- |
-| `F2`            | open zettelkasten tags sidebar     |
-| `<LeftRelease>` | filter notes based on cursor tag   |
-| `gf`            | open the note                      |
-| `Ctrl-l`        | clear tags filter pattarn          |
-| `Ctrl-] / K`    | preview note in vim preview-window |
-| `[I`            | list references in quickfix-window |
+Potential ideas to implement in the future:
 
-## Screenshots
+- [ ] A graph view (Possible with an external CLI program.)
+- [X] A sidebar (or preview window) to display the linked notes.
+- [ ] Telescope support. It's a popular plugin so it'd be useful but I don't use Telescope so
+  contributions for this feature is most welcome!
 
-![](https://wsdjeg.net/images/zkbrowser.png)
-![](https://wsdjeg.net/images/zettelkasten-tags-sidebar.png)
-![](https://wsdjeg.net/images/zettelkasten-tags-filter.png)
-![](https://wsdjeg.net/images/zettelkasten-complete-id.png)
+# Project Goals
 
-## Feedback
+I started the project out of a bout of excitement for having discovered the Zettelkasten note
+taking system. I've been looking for better ways to take notes and this system seems to fulfill my
+needs. Since I love Vim, and Zettelkasten is a text based system (Which is what I love the most
+about it), I decided to create a plugin immediately.
 
-The development of this plugin is in [`SpaceVim/bundle/vim-zettelkasten`](https://github.com/SpaceVim/SpaceVim/tree/master/bundle/vim-zettelkasten) directory.
+My goal is not to turn this into a huge thing with custom pickers, and file types, and a gazillion
+mapping and commands. My goal is to make use of the existing Vim options/mappings/features to
+extend markdown file type so it's more convenient to navigate, discover, and write.
 
-If you encounter any bugs or have suggestions, please file an issue in the [issue tracker](https://github.com/SpaceVim/SpaceVim/issues)
+As you can see from its initial state, the only thing you need to really know about this plugin is
+the `:ZkNew` command. Everything else can be discovered as you are flexing your usual Vim muscles
+(e. `gf`, `i_CTRL-X_CTRL-]`, `CTRL-]`).
+
+In true Vim philosophy, I also want to make it easier for people to extend this plugin to their own
+needs. So, all the Lua API will be nicely designed so you can interface this plugin with others
+(e.g `Telescope.nvim`) or create your own workflow easily.
+
+Please also see `:help zettelkasten.nvim-101` and `:help zettelkasten-philosophy`.
+
+# Related Projects
+
+- [zk-nvim](https://github.com/mickael-menu/zk-nvim)
+- [zettel.vim](https://github.com/Aarleks/zettel.vim/)
+- [telekasten.nvim](https://github.com/renerocksai/telekasten.nvim)
+- [marty-oehme/zettelkasten.nvim](https://github.com/marty-oehme/zettelkasten.nvim)

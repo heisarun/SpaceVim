@@ -140,18 +140,13 @@ function! SpaceVim#default#options() abort
   " Do not wrap lone lines
   set nowrap
 
-  if exists('&belloff')
-    " disable all bell
-    set belloff=all
-  endif
-
   set foldtext=SpaceVim#default#Customfoldtext()
 
 endfunction
 "}}}
 
 function! SpaceVim#default#layers() abort
-  call SpaceVim#logger#info('init default layer list.')
+  call SpaceVim#logger#debug('init default layer list.')
   call SpaceVim#layers#load('autocomplete')
   call SpaceVim#layers#load('checkers')
   call SpaceVim#layers#load('format')
@@ -161,11 +156,10 @@ function! SpaceVim#default#layers() abort
   call SpaceVim#layers#load('core#banner')
   call SpaceVim#layers#load('core#statusline')
   call SpaceVim#layers#load('core#tabline')
-  call SpaceVim#logger#info('layer list init done')
 endfunction
 
-function! SpaceVim#default#keyBindings(...) abort
-  call SpaceVim#logger#info('init default key bindings.')
+function! SpaceVim#default#keyBindings() abort
+  call SpaceVim#logger#debug('init default key bindings.')
   xnoremap <silent> <Leader>y :<C-u>call clipboard#yank()<cr>
   nnoremap <expr> <Leader>p clipboard#paste('p')
   nnoremap <expr> <Leader>P clipboard#paste('P')
@@ -277,14 +271,10 @@ function! SpaceVim#default#keyBindings(...) abort
   nnoremap <silent><M-5> :<C-u>call <SID>tobur(5)<CR>
   nnoremap <silent><M-Right> :<C-U>call <SID>tobur("next")<CR>
   nnoremap <silent><M-Left> :<C-U>call <SID>tobur("prev")<CR>
-  call SpaceVim#logger#info('default key binding init done')
+
 endfunction
 
 fu! s:tobur(num) abort
-  if has('nvim-0.9.5')
-    lua require('spacevim.plugin.tabline').jump(vim.api.nvim_eval('a:num'))
-    return
-  endif
   if index(get(g:,'_spacevim_altmoveignoreft',[]), &filetype) == -1
     if a:num ==# 'next'
       if tabpagenr('$') > 1
@@ -311,42 +301,42 @@ fu! s:tobur(num) abort
       endif
     endif
   endif
-endfunction
+  endf
 
-function! SpaceVim#default#UseSimpleMode() abort
+  function! SpaceVim#default#UseSimpleMode() abort
 
-endfunction
+  endfunction
 
-function! SpaceVim#default#Customfoldtext() abort
-  "get first non-blank line
-  let fs = v:foldstart
-  while getline(fs) =~# '^\s*$' | let fs = nextnonblank(fs + 1)
-  endwhile
-  if fs > v:foldend
-    let line = getline(v:foldstart)
-  else
-    let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
-  endif
+  function! SpaceVim#default#Customfoldtext() abort
+    "get first non-blank line
+    let fs = v:foldstart
+    while getline(fs) =~# '^\s*$' | let fs = nextnonblank(fs + 1)
+    endwhile
+    if fs > v:foldend
+      let line = getline(v:foldstart)
+    else
+      let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
+    endif
 
-  let foldsymbol='+'
-  let repeatsymbol='-'
-  let prefix = foldsymbol . ' '
+    let foldsymbol='+'
+    let repeatsymbol='-'
+    let prefix = foldsymbol . ' '
 
-  let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
-  let foldSize = 1 + v:foldend - v:foldstart
-  let foldSizeStr = ' ' . foldSize . ' lines '
-  let foldLevelStr = repeat('+--', v:foldlevel)
-  let lineCount = line('$')
-  let foldPercentage = printf('[%.1f', (foldSize*1.0)/lineCount*100) . '%] '
-  let expansionString = repeat(repeatsymbol, w - strwidth(prefix.foldSizeStr.line.foldLevelStr.foldPercentage))
-  return prefix . line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
-endfunction
+    let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
+    let foldSize = 1 + v:foldend - v:foldstart
+    let foldSizeStr = ' ' . foldSize . ' lines '
+    let foldLevelStr = repeat('+--', v:foldlevel)
+    let lineCount = line('$')
+    let foldPercentage = printf('[%.1f', (foldSize*1.0)/lineCount*100) . '%] '
+    let expansionString = repeat(repeatsymbol, w - strwidth(prefix.foldSizeStr.line.foldLevelStr.foldPercentage))
+    return prefix . line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
+  endfunction
 
-function! s:switch_tabs() abort
-  let previous_tab = s:TAB.previous_tabpagenr()
-  if previous_tab > 0
-    exe 'tabnext ' . previous_tab
-  endif
-endfunction
+  function! s:switch_tabs() abort
+    let previous_tab = s:TAB.previous_tabpagenr()
+    if previous_tab > 0
+      exe 'tabnext ' . previous_tab
+    endif
+  endfunction
 
-" vim:set et sw=2:
+  " vim:set et sw=2:

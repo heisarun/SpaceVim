@@ -5,7 +5,6 @@ description: "A general guide for using SpaceVim as Scala IDE, including layer c
 type: article
 comments: true
 commentsID: "Use Vim as a Scala IDE"
-language: Scala
 ---
 
 # [Blogs](../blog/) >> Use Vim as a Scala IDE

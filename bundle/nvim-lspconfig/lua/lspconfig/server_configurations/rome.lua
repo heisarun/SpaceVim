@@ -1,8 +1,15 @@
 local util = require 'lspconfig.util'
 
+local bin_name = 'rome'
+local cmd = { bin_name, 'lsp' }
+
+if vim.fn.has 'win32' == 1 then
+  cmd = { 'cmd.exe', '/C', bin_name, 'lsp' }
+end
+
 return {
   default_config = {
-    cmd = { 'rome', 'lsp' },
+    cmd = cmd,
     filetypes = {
       'javascript',
       'javascriptreact',
@@ -29,7 +36,7 @@ npm install [-g] rome
 ```
 ]],
     default_config = {
-      root_dir = [[root_pattern('package.json', 'node_modules', '.git') or dirname]],
+      root_dir = [[root_pattern('package.json', 'node_modules', '.git')]],
     },
   },
 }

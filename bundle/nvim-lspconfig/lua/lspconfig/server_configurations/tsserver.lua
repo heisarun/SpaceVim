@@ -1,14 +1,16 @@
 local util = require 'lspconfig.util'
 
 local bin_name = 'typescript-language-server'
+local cmd = { bin_name, '--stdio' }
+
 if vim.fn.has 'win32' == 1 then
-  bin_name = bin_name .. '.cmd'
+  cmd = { 'cmd.exe', '/C', bin_name, '--stdio' }
 end
 
 return {
   default_config = {
     init_options = { hostInfo = 'neovim' },
-    cmd = { bin_name, '--stdio' },
+    cmd = cmd,
     filetypes = {
       'javascript',
       'javascriptreact',
@@ -31,7 +33,7 @@ https://github.com/theia-ide/typescript-language-server
 npm install -g typescript typescript-language-server
 ```
 
-To configure type language server, add a
+To configure typescript language server, add a
 [`tsconfig.json`](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) or
 [`jsconfig.json`](https://code.visualstudio.com/docs/languages/jsconfig) to the root of your
 project.

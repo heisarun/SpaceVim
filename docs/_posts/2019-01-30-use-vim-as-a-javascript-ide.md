@@ -6,7 +6,6 @@ description: "A general guide for using SpaceVim as JavaScript IDE, including la
 type: article
 comments: true
 commentsID: "Use Vim as a JavaScript IDE"
-language: JavaScript
 ---
 
 # [Blogs](../blog/) >> Use Vim as a JavaScript IDE

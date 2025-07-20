@@ -17,7 +17,7 @@ language.
 
 It is released on CRAN and can be easily installed by
 
-```r
+```R
 install.packages("languageserver")
 ```
 ]],

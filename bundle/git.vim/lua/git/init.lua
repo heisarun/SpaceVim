@@ -29,7 +29,6 @@ local cmds = {
   'rebase',
   'stash',
   'tag',
-  'update-index',
 }
 local supported_commands = {}
 

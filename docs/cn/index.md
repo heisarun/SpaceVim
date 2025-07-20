@@ -4,10 +4,13 @@ description: "SpaceVim 是一个模块化的 Vim 和 Neovim 的配置集合，�
 lang: zh
 ---
 
+[![matrix](https://img.spacevim.org/spacevim-cn-matrix.svg)](https://app.element.io/#/room/#spacevim-cn:matrix.org)
+[![Telegram](https://img.spacevim.org/telegram-spacevim-cn.svg)](https://t.me/SpaceVim_CN/)
 [![twitter](https://img.spacevim.org/twitter.svg)](https://twitter.com/SpaceVim)
 [![GPLv3 License](https://img.spacevim.org/license-GPLv3-blue.svg)](development/#证书)
+[![reddit](https://img.spacevim.org/reddit.svg)](https://www.reddit.com/r/SpaceVim/)
 
-![work-flow](https://img.spacevim.org/workflow.png)
+![welcome page](https://img.spacevim.org/release-v2.3.0.png)
 
 SpaceVim 是一个模块化的 Vim 和 Neovim 配置集合，它的灵感来自于 [spacemacs](https://www.spacemacs.org/)。
 以模块的方式组织插件及相关配置，将相关插件组合在一起提供完整的功能。
@@ -29,6 +32,8 @@ SpaceVim 是一个模块化的 Vim 和 Neovim 配置集合，它的灵感来自�
                <br>
                <span class="post-date">{{ post.date | date_to_string }}</span>
                <p>{{ post.description | truncatewords: 100 }}</p>
+               <br>
+               <img alt="{{ post.title }}" src="{{ post.image }}">
     {% endfor %}
 </ul>
 
@@ -53,8 +58,8 @@ SpaceVim 是一个模块化的 Vim 和 Neovim 配置集合，它的灵感来自�
 
 - SpaceVim 测试的 Vim 及 Neovim 版本包括哪些？
 
-  - vim: `8.2.3995` `9.1.0016`
-  - neovim: `v0.6.0`, `v0.7.0`, `v0.8.0`, `v0.9.0`, `v0.9.5`, `v0.10.0`
+  - vim: `7.4.1185`, `7.4.1689`, `8.0.0027`, `9.1.0196`
+  - neovim: `0.7.2`, `0.8.0`, `0.9.5`
 
 更多常见问题请阅读[常见问题解答](faq/)
 

@@ -5,7 +5,7 @@ description: "The latest changes in master branch since last release."
 
 # [Home](../) >> Following Head
 
-This page documents changes in master branch since last release v2.4.0
+This page documents changes in master branch since last release v2.3.0
 
 <!-- vim-markdown-toc GFM -->
 
@@ -16,7 +16,7 @@ This page documents changes in master branch since last release v2.4.0
 
 ## Next release
 
-The next release is `v2.5.0`
+The next release is `v2.4.0`
 
 <!--
 call SpaceVim#dev#followHEAD#update('en')
@@ -26,6 +26,6 @@ call SpaceVim#dev#followHEAD#update('en')
 
 ## Latest Release
 
-SpaceVim releases v2.4.0 at 2024-12-22, please check the release page:
+SpaceVim releases v2.2.0 at 2023-07-07, please check the release page:
 
-- [SpaceVim releases v2.4.0](https://spacevim.org/SpaceVim-release-v2.4.0/) for all the details
+- [SpaceVim releases v2.2.0](https://spacevim.org/SpaceVim-release-v2.2.0/) for all the details

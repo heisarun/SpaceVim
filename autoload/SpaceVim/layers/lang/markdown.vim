@@ -71,11 +71,7 @@ function! SpaceVim#layers#lang#markdown#plugins() abort
   let plugins = []
   call add(plugins, [g:_spacevim_root_dir . 'bundle/vim-markdown',{ 'on_ft' : 'markdown'}])
   call add(plugins, ['joker1007/vim-markdown-quote-syntax',{ 'on_ft' : 'markdown'}])
-  call add(plugins, [g:_spacevim_root_dir . 'bundle/vim-markdown-toc', {
-        \ 'merged' : 0,
-        \ 'on_ft' : 'markdown',
-        \ 'on_cmd' :
-        \ ['GenTocGFM', 'GenTocGitLab', 'GenTocMarked', 'GenTocModeline', 'GenTocRedcarpet']}])
+  call add(plugins, [g:_spacevim_root_dir . 'bundle/vim-markdown-toc', {'merged' : 0}])
   call add(plugins, ['iamcco/mathjax-support-for-mkdp',{ 'on_ft' : 'markdown'}])
   call add(plugins, ['lvht/tagbar-markdown',{'merged' : 0}])
   " check node package managers to ensure building of 2 plugins below
@@ -152,18 +148,10 @@ function! s:mappings() abort
   call SpaceVim#mapping#space#langSPC('nmap', ['l', 'r'], 
         \ 'call call('
         \ . string(function('s:run_code_in_block'))
-        \ . ', [])', 'run-code-bl', 1)
-  call SpaceVim#mapping#space#langSPC('nmap', ['l', 'f'], 
-        \ 'call call('
-        \ . string(function('s:format_code_block'))
-        \ . ', [])', 'format-code-block', 1)
+        \ . ', [])', 'run code in block', 1)
   call SpaceVim#mapping#space#langSPC('nmap', ['l','c'], 'GenTocGFM', 'create content at cursor', 1)
   call SpaceVim#mapping#space#langSPC('nmap', ['l','C'], 'RemoveToc', 'remove content', 1)
   call SpaceVim#mapping#space#langSPC('nmap', ['l','u'], 'UpdateToc', 'update content', 1)
-  call SpaceVim#mapping#space#langSPC('nmap', ['l', 't'], 
-        \ 'call call('
-        \ . string(function('s:toggle_todo'))
-        \ . ', [])', 'toggle-checkbox', 1)
 endfunction
 
 function! s:generate_remarkrc() abort
@@ -185,15 +173,6 @@ function! s:generate_remarkrc() abort
   let f  = tempname() . '.js'
   call writefile(conf, f)
   return f
-endfunction
-
-function! s:toggle_todo() abort
-  let line = getline('.')
-  if line =~# '\s*-\s\[\s\]'
-    call setline('.', substitute(getline('.'), '- \[ \]', '- [x]', ''))
-  elseif line =~# '\s*-\s\[x\]'
-    call setline('.', substitute(getline('.'), '- \[x\]', '- [ ]', ''))
-  endif
 endfunction
 
 function! s:markdown_insert_link(isVisual, isPicture) abort
@@ -240,24 +219,9 @@ function! s:run_code_in_block() abort
   endif
 endfunction
 
-function! s:format_code_block() abort
-  let cf = context_filetype#get()
-  if cf.filetype !=# 'markdown'
-    let command = printf('%s,%sFormat! %s', cf.range[0][0], cf.range[1][0], cf.filetype)
-    exe command
-  endif
-  
-endfunction
-
 
 function! SpaceVim#layers#lang#markdown#health() abort
   call SpaceVim#layers#lang#markdown#plugins()
   call SpaceVim#layers#lang#markdown#config()
   return 1
-endfunction
-
-function! SpaceVim#layers#lang#markdown#loadable() abort
-
-  return 1
-
 endfunction

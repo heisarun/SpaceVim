@@ -10,6 +10,7 @@ return {
       '--',
       '--port 13603',
       '--nostdio 0',
+      '--version 2.1.0',
     },
     settings = {
       perl = {

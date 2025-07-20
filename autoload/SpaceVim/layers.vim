@@ -74,12 +74,10 @@ function! SpaceVim#layers#load(layer, ...) abort
   elseif empty(a:layer) || type(a:layer) !=# type('')
     return
   endif
-  call SpaceVim#logger#info('load layer:' . a:layer)
   let loadable = 1
   try
     let loadable = SpaceVim#layers#{a:layer}#loadable()
   catch /^Vim\%((\a\+)\)\=:E117/
-    call SpaceVim#logger#info(a:layer . ' layer do not implement loadable function')
   endtry
   if index(s:enabled_layers, a:layer) == -1
     if loadable
@@ -96,7 +94,6 @@ function! SpaceVim#layers#load(layer, ...) abort
       call SpaceVim#layers#{a:layer}#set_variable(a:1)
       let s:layers_vars[a:layer] = a:1
     catch /^Vim\%((\a\+)\)\=:E117/
-      call SpaceVim#logger#info(a:layer . ' layer do not implement set_variable function')
     endtry
   endif
   if a:0 > 0 && type(a:1) == 1 
@@ -104,7 +101,6 @@ function! SpaceVim#layers#load(layer, ...) abort
       call SpaceVim#layers#load(l)
     endfor
   endif
-  call SpaceVim#logger#info('layer loaded.')
 endfunction
 
 function! SpaceVim#layers#disable(layer) abort

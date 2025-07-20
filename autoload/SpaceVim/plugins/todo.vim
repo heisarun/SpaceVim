@@ -166,12 +166,10 @@ endfunction
 
 function! s:open_todo() abort
   let todo = s:todos[line('.') - 1]
-  if g:spacevim_todo_close_list
-    try
-      close
-    catch
-    endtry
-  endif
+  try
+    close
+  catch
+  endtry
   exe s:winnr .  'wincmd w'
   exe 'e ' . todo.file
   call cursor(todo.line, todo.column)
@@ -193,7 +191,7 @@ function! s:get_labels_regex()
   endif
 
   return join(map(copy(s:labels), "s:prefix . v:val . '\\b'"),
-        \ separator)
+  \ separator)
 endfunc
 
 function! s:get_labels_pattern()

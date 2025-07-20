@@ -22,63 +22,10 @@
 " enabled by default.
 "
 " @subsection Key bindings
-"
-" The following two key bindings require neovim v0.10.0+.
 " >
-"   Key binding       |    Description
-"   ----------------- | -----------------------------------------------
-"   Ctrl-Shift-Right  |   Move current tabpage to the right
-"   Ctrl-Shift-Left   |   Move current tabpage to the left
-" <
-" @subsection Use Tabline
-" 
-" Buffers will be listed on the tabline if there is only one tab, each item contains
-" the index, buffer name and the filetype icon. If there is more than one tab, all
-" of them will be listed on the tabline. Each item can be quickly accessed by using
-" `<Leader> number`. Default `<Leader>` is `\`.
-" >
-"   Key Bindings | Descriptions
-"   ------------ | -----------------------------------------------
-"    <Leader> 1  | Jump to index 1 on tabline
-"    <Leader> 2  | Jump to index 2 on tabline
-"    <Leader> 3  | Jump to index 3 on tabline
-"    <Leader> 4  | Jump to index 4 on tabline
-"    <Leader> 5  | Jump to index 5 on tabline
-"    <Leader> 6  | Jump to index 6 on tabline
-"    <Leader> 7  | Jump to index 7 on tabline
-"    <Leader> 8  | Jump to index 8 on tabline
-"    <Leader> 9  | Jump to index 9 on tabline
-"    g r         | Switch to alternate tab (switch back and forth)
-" <
-" NOTE: `SPC Tab` is the key binding for switching to alternate buffer.
-" Read [Buffers and Files](#buffers-and-files) section for more info.
-" 
-" SpaceVim tabline also supports mouse click, the left mouse button will switch to the buffer,
-" while the middle mouse button will delete the buffer.
-" 
-" NOTE: This feature is only supported in Neovim with `has('tablineat')`.
-" >
-"   Key Bindings     | Descriptions
-"   ---------------- | --------------------
-"   <Mouse-left>     | Switch to the buffer
-"   <Mouse-middle>   | Delete the buffer
-" <
-" @subsection Tab manager
-" 
-" You can also use `SPC t t` to open the tab manager window.
-" 
-" Key bindings within the tab manager window:
-" >
-"   Key Bindings      | Descriptions
-"   ----------------- | -----------------------------------------
-"    o                | Close or expand tab windows.
-"    r                | Rename the tab under the cursor.
-"    n                | Create new named tab below the cursor tab
-"    N                | Create new tab below the cursor tab
-"    x                | Delete the tab
-"    Ctrl-Shift-Up    | Move tab backward
-"    Ctrl-Shift-Down  | Move tab forward
-"    <Enter>          | Switch to the window under the cursor.
+"   Key binding          Description
+"   Ctrl-Shift-Right     Move current tabpage to the right
+"   Ctrl-Shift-Left      Move current tabpage to the left
 " <
 
 scriptencoding utf-8
@@ -88,91 +35,6 @@ if exists('g:_spacevim_tabline_loaded')
 endif
 
 let g:_spacevim_tabline_loaded = 1
-
-let s:enable_default_mappings = 1
-
-if has('nvim-0.9.0')
-  function! SpaceVim#layers#core#tabline#get() abort
-    return v:lua.require('spacevim.plugin.tabline').get()
-  endfunction
-
-  function! SpaceVim#layers#core#tabline#config() abort
-    lua require('spacevim.plugin.tabline').enable()
-    set tabline=%!v:lua.require('spacevim.plugin.tabline').get()
-    augroup SpaceVim_tabline
-      autocmd!
-      autocmd ColorScheme * lua require('spacevim.plugin.tabline').def_colors()
-    augroup END
-    if s:enable_default_mappings
-      nnoremap <silent> <C-S-Left> <cmd>lua require('spacevim.plugin.tabline').move_to_previous()<CR>
-      nnoremap <silent> <C-S-Right> <cmd>lua require('spacevim.plugin.tabline').move_to_next()<CR>
-    endif
-    let shift_keys = {
-          \  '1': '!',
-          \  '2': '@',
-          \  '3': '#',
-          \  '4': '$',
-          \  '5': '%',
-          \  '6': '^',
-          \  '7': '&',
-          \  '8': '*',
-          \  '9': '(',
-          \  '0': ')'
-          \}
-
-    for i in range(1, 20)
-      let key = i % 10
-
-      if i > 10
-        let key = shift_keys[string(key)]
-      endif
-
-      exe "call SpaceVim#mapping#def('nmap <silent>', '<leader>" . key
-            \ . "', ':call SpaceVim#layers#core#tabline#jump("
-            \ . i . ")<cr>', 'Switch to airline tab " . i
-            \ . "', '', 'tabline index " . i . "')"
-    endfor
-  endfunction
-
-  function! SpaceVim#layers#core#tabline#jump(id, ...) abort
-    call SpaceVim#logger#info(a:id)
-    call SpaceVim#logger#info(string(a:000))
-    lua require('spacevim.plugin.tabline').jump(vim.api.nvim_eval('a:id'))
-  endfunction
-
-  function! SpaceVim#layers#core#tabline#def_colors() abort
-    call v:lua.require('spacevim.plugin.tabline').def_colors()
-  endfunction
-
-  function! SpaceVim#layers#core#tabline#health() abort
-    call SpaceVim#layers#core#tabline#config()
-    return 1
-  endfunction
-
-  function! SpaceVim#layers#core#tabline#loadable() abort
-
-    return 1
-
-  endfunction
-
-  function! SpaceVim#layers#core#tabline#plugins() abort
-
-    return []
-
-  endfunction
-
-  function! SpaceVim#layers#core#tabline#set_variable(var) abort
-    let s:enable_default_mappings = get(a:var, 'enable_default_mappings', s:enable_default_mappings)
-  endfunction
-
-  function! SpaceVim#layers#core#tabline#get_options() abort
-
-    return ['enable_default_mappings']
-
-  endfunction
-  finish
-endif
-
 
 " loadding APIs {{{
 let s:MESSLETTERS = SpaceVim#api#import('messletters')
@@ -207,6 +69,7 @@ let [s:lsep , s:rsep] = ['', '']
 
 let [s:ilsep , s:irsep] = ['', '']
 
+let s:enable_default_mappings = 1
 
 function! s:get_no_empty(a, b) abort
   if empty(a:a)
@@ -650,18 +513,18 @@ function! SpaceVim#layers#core#tabline#get() abort
 endfunction
 
 function! SpaceVim#layers#core#tabline#config() abort
-    let [s:lsep , s:rsep] = get(s:separators, g:spacevim_statusline_separator, s:separators['arrow'])
-    let [s:ilsep , s:irsep] = get(s:i_separators, g:spacevim_statusline_iseparator, s:separators['arrow'])
-    set tabline=%!SpaceVim#layers#core#tabline#get()
-    augroup SpaceVim_tabline
-      autocmd!
-      autocmd ColorScheme * call SpaceVim#layers#core#tabline#def_colors()
-    augroup END
+  let [s:lsep , s:rsep] = get(s:separators, g:spacevim_statusline_separator, s:separators['arrow'])
+  let [s:ilsep , s:irsep] = get(s:i_separators, g:spacevim_statusline_iseparator, s:separators['arrow'])
+  set tabline=%!SpaceVim#layers#core#tabline#get()
+  augroup SpaceVim_tabline
+    autocmd!
+    autocmd ColorScheme * call SpaceVim#layers#core#tabline#def_colors()
+  augroup END
 
-    if s:enable_default_mappings
-      nnoremap <silent> <C-S-Left> :call <SID>move_tabpage(-1)<CR>
-      nnoremap <silent> <C-S-Right> :call <SID>move_tabpage(1)<CR>
-    endif
+  if s:enable_default_mappings
+    nnoremap <silent> <C-S-Left> :call <SID>move_tabpage(-1)<CR>
+    nnoremap <silent> <C-S-Right> :call <SID>move_tabpage(1)<CR>
+  endif
 
   let shift_keys = {
         \  '1': '!',
@@ -691,8 +554,6 @@ function! SpaceVim#layers#core#tabline#config() abort
 endfunction
 
 function! SpaceVim#layers#core#tabline#jump(id, ...) abort
-  call SpaceVim#logger#info(a:id)
-  call SpaceVim#logger#info(string(a:000))
   if len(s:shown_items) >= a:id
     let item = s:shown_items[a:id - 1]
     let mouse = get(a:000, 1, '')
@@ -748,18 +609,6 @@ endfunction
 function! SpaceVim#layers#core#tabline#health() abort
   call SpaceVim#layers#core#tabline#config()
   return 1
-endfunction
-
-function! SpaceVim#layers#core#tabline#loadable() abort
-
-  return 1
-
-endfunction
-
-function! SpaceVim#layers#core#tabline#plugins() abort
-
-  return []
-
 endfunction
 
 function! SpaceVim#layers#core#tabline#set_variable(var) abort

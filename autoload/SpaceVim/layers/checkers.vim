@@ -54,12 +54,7 @@ function! SpaceVim#layers#checkers#plugins() abort
   endif
 
   if g:spacevim_lint_engine ==# 'neomake'
-    call add(plugins, [g:_spacevim_root_dir . 'bundle/neomake', {
-          \ 'merged' : 0,
-          \ 'loadconf' : 1,
-          \ 'on_cmd' : ['Neomake'],
-          \ 'on_func' : ['neomake#GetCurrentErrorMsg', 'neomake#statusline#LoclistCounts'],
-          \ 'loadconf_before' : 1}])
+    call add(plugins, [g:_spacevim_root_dir . 'bundle/neomake', {'merged' : 0, 'loadconf' : 1 , 'loadconf_before' : 1}])
   elseif g:spacevim_lint_engine ==# 'ale'
     call add(plugins, [g:_spacevim_root_dir . 'bundle/ale', {'merged' : 0, 'loadconf' : 1 , 'loadconf_before' : 1}])
   elseif g:spacevim_lint_engine ==# 'syntastic'
@@ -67,12 +62,6 @@ function! SpaceVim#layers#checkers#plugins() abort
   endif
 
   return plugins
-endfunction
-
-function! SpaceVim#layers#checkers#loadable() abort
-
-  return 1
-
 endfunction
 
 function! SpaceVim#layers#checkers#set_variable(var) abort
@@ -217,7 +206,6 @@ function! s:toggle_show_error(...) abort
     " if buf_server_ready return false, the language server loclist
     " should be cleared.
     if get(getloclist(0, {'title': 0}), 'title', '') ==# 'Language Server'
-          \ || get(getloclist(0, {'title': 0}), 'title', '') ==# 'Diagnostics'
       call setloclist(0, [], 'r')
     endif
     let llist = getloclist(0, {'size' : 1, 'winid' : 1})

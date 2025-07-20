@@ -1,8 +1,15 @@
 local util = require 'lspconfig.util'
 
+local bin_name = 'intelephense'
+local cmd = { bin_name, '--stdio' }
+
+if vim.fn.has 'win32' == 1 then
+  cmd = { 'cmd.exe', '/C', bin_name, '--stdio' }
+end
+
 return {
   default_config = {
-    cmd = { 'intelephense', '--stdio' },
+    cmd = cmd,
     filetypes = { 'php' },
     root_dir = function(pattern)
       local cwd = vim.loop.cwd()
@@ -22,7 +29,6 @@ npm install -g intelephense
 ```
 ]],
     default_config = {
-      package_json = 'https://raw.githubusercontent.com/bmewburn/vscode-intelephense/master/package.json',
       root_dir = [[root_pattern("composer.json", ".git")]],
       init_options = [[{
         storagePath = Optional absolute path to storage dir. Defaults to os.tmpdir().

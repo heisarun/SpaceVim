@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/wiki/gruvbox-community/gruvbox/images/gruvbox.svg?sanitize=true"></p>
+<p align="center"><img src="http://svgur.com/i/3Dp.svg"></p>
 
 gruvbox is heavily inspired by [badwolf][], [jellybeans][] and [solarized][].
 
@@ -8,15 +8,10 @@ Designed as a bright theme with pastel 'retro groove' colors and light/dark mode
    [jellybeans]: https://github.com/nanotech/jellybeans.vim
    [solarized]: http://ethanschoonover.com/solarized
 
-This is a community fork of gruvbox, created to merge recent pull requests and fix recent issues.
-
-If you would like to help gruvbox community edition, please consider becoming a maintainer.
-See [this issue](https://github.com/gruvbox-community/gruvbox/issues/93) for more details.
-
 Attention
 ---------
 
-1. [Read this first](https://github.com/gruvbox-community/gruvbox/wiki/Terminal-specific)
+1. [Read this first](https://github.com/morhetz/gruvbox/wiki/Terminal-specific)
 2. Typeface from gallery is [Fantasque Sans Mono](https://github.com/belluzj/fantasque-sans)
 3. Typeface from screenshots below is [Fira Mono](https://mozilla.github.io/Fira/)
 
@@ -25,7 +20,7 @@ Screenshots
 
 Refer [Gallery][] for more syntax-specific screenshots.
 
-   [Gallery]: https://github.com/gruvbox-community/gruvbox/wiki/Gallery
+   [Gallery]: https://github.com/morhetz/gruvbox/wiki/Gallery
 
 ### Dark mode
 
@@ -44,18 +39,18 @@ Palette
 
 ### Dark mode
 
-![Palette Dark](https://raw.githubusercontent.com/wiki/gruvbox-community/gruvbox/images/gruvbox_palette_dark.png)
+![Palette Dark](http://i.imgur.com/wa666xg.png)
 
 ### Light mode
 
-![Palette Light](https://raw.githubusercontent.com/wiki/gruvbox-community/gruvbox/images/gruvbox_palette_light.png)
+![Palette Light](http://i.imgur.com/49qKyYW.png)
 
 Contrast options
 ----------------
 
 Refer [wiki section][] for contrast configuration and other options.
 
-   [wiki section]: https://github.com/gruvbox-community/gruvbox/wiki/Configuration#ggruvbox_contrast_dark
+   [wiki section]: https://github.com/morhetz/gruvbox/wiki/Configuration#ggruvbox_contrast_dark
 
 ![Contrast Options](http://i.imgur.com/5MSbe6T.png)
 
@@ -64,17 +59,15 @@ Documentation
 
 Please check [wiki][] for installation details, terminal-specific setup, troubleshooting, configuration options and others.
 
-   [wiki]: https://github.com/gruvbox-community/gruvbox/wiki
+   [wiki]: https://github.com/morhetz/gruvbox/wiki
 
 Features
 --------
 
 * Lots of style-customization options (contrast, color invertion, italics usage etc.)
-* Extended filetype highlighting: Html, Xml, Vim, Clojure, C, Python, JavaScript, TypeScript, JSX via [vim-jsx-pretty][], PureScript, CoffeeScript, Ruby, Objective-C, Go, Lua, MoonScript, Java, Markdown, Haskell, Elixir, C#, Rust via [rust.vim][]
-* Supported plugins: [EasyMotion][], [vim-sneak][], [Indent Guides][], [indentLine][], [Rainbow Parentheses][], [Airline][], [Lightline][], [GitGutter][], [Signify][], [ShowMarks][], [Signature][], [Syntastic][], [Ale][], [CtrlP][], [fzf][], [Startify][], [NERDTree][], [Dirvish][]
+* Extended filetype highlighting: Html, Xml, Vim, Clojure, C, Python, JavaScript, TypeScript, PureScript, CoffeeScript, Ruby, Objective-C, Go, Lua, MoonScript, Java, Markdown, Haskell, Elixir
+* Supported plugins: [EasyMotion][], [vim-sneak][], [Indent Guides][], [indentLine][], [Rainbow Parentheses][], [Airline][], [Lightline][], [GitGutter][], [Signify][], [ShowMarks][], [Signature][], [Syntastic][], [Ale][], [CtrlP][], [Startify][], [NERDTree][], [Dirvish][]
 
-   [vim-jsx-pretty]: https://github.com/MaxMEllon/vim-jsx-pretty
-   [rust.vim]: https://github.com/rust-lang/rust.vim
    [EasyMotion]: https://github.com/Lokaltog/vim-easymotion
    [vim-sneak]: https://github.com/justinmk/vim-sneak
    [Indent Guides]: https://github.com/nathanaelkane/vim-indent-guides
@@ -89,7 +82,6 @@ Features
    [Syntastic]: https://github.com/scrooloose/syntastic
    [Ale]: https://github.com/w0rp/ale
    [CtrlP]: https://github.com/kien/ctrlp.vim
-   [fzf]: https://github.com/junegunn/fzf.vim
    [Startify]: https://github.com/mhinz/vim-startify
    [NERDTree]: https://github.com/scrooloose/nerdtree
    [Dirvish]: https://github.com/justinmk/vim-dirvish
@@ -99,7 +91,7 @@ Contributions
 
 See [gruvbox-contrib][] repo for contributions, ports and extras.
 
-[gruvbox-contrib]: https://github.com/gruvbox-community/gruvbox-contrib
+[gruvbox-contrib]: https://github.com/morhetz/gruvbox-contrib
 
 ToDo
 ----
@@ -111,7 +103,7 @@ Self-Promotion
 --------------
 
 If you like gruvbox follow the repository on
-[GitHub](https://github.com/gruvbox-community/gruvbox) and vote for it on
+[GitHub](https://github.com/morhetz/gruvbox) and vote for it on
 [vim.org](http://www.vim.org/scripts/script.php?script_id=4349).
 
 License

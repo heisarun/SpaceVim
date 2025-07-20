@@ -8,7 +8,6 @@ lang: zh
 type: article
 comments: true
 commentsID: "使用 Vim 搭建 C/C++ 开发环境"
-language: "C/C++"
 ---
 
 # [Blogs](../blog/) >> 使用 Vim 搭建 C/C++ 开发环境

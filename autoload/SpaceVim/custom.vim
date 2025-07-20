@@ -159,14 +159,8 @@ function! s:apply(config, type) abort
         if value ==# 'defx' && !has('python3')
           call SpaceVim#logger#warn('defx requires +python3!')
           continue
-        elseif value ==# 'defx' && has('nvim') && !has('nvim-0.4.0')
-          call SpaceVim#logger#warn('defx requires nvim 0.4.0+!')
-          continue
         elseif value ==# 'neo-tree' && !has('nvim')
           call SpaceVim#logger#warn('neo-tree requires neovim')
-          continue
-        elseif value ==# 'nvim-tree' && !has('nvim')
-          call SpaceVim#logger#warn('nvim-tree requires neovim')
           continue
         endif
         " keep backward compatibility
@@ -180,10 +174,8 @@ function! s:apply(config, type) abort
             call SpaceVim#logger#warn('deoplete requires +python3!')
             continue
           endif
-        elseif value ==# 'nvim-cmp' && !has('nvim-0.7.0')
-          " https://github.com/hrsh7th/nvim-cmp/issues/231
-          " nvim-cmp Breaking changes
-          call SpaceVim#logger#warn('nvim-cmp will only work on nvim v0.7.x or higher')
+        elseif value ==# 'nvim-cmp' && !has('nvim')
+          call SpaceVim#logger#warn('nvim-cmp requires neovim')
           continue
         endif
       elseif name ==# 'statusline_right_sections'

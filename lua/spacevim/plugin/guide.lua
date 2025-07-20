@@ -15,9 +15,6 @@ local cmp = require('spacevim.api').import('vim.compatible')
 local buffer = require('spacevim.api').import('vim.buffer')
 local VIM = require('spacevim.api').import('vim')
 local SL = require('spacevim.api').import('vim.statusline')
-local hl = require('spacevim.api.vim.highlight')
-local vopt = require('spacevim.api.vim.option')
-
 
 -- all local values should be listed here:
 
@@ -133,9 +130,7 @@ local function format_displaystring(map)
   end
 
   local display = vim.g['leaderGuide#displayname']
-  if vim.g['leaderGuide#displayname'] then
-    vim.cmd('unlet g:leaderGuide#displayname')
-  end
+  vim.cmd('unlet g:leaderGuide#displayname')
   return display
 end
 
@@ -169,27 +164,27 @@ local function add_map_to_dict(map, level, dict)
     local nlevel = level + 1
     if not dict[curkey] then
       dict[curkey] = { name = vim.g.leaderGuide_default_group_name }
-    elseif cmp.islist(dict[curkey]) and vim.g.leaderGuide_flatten == 1 then
+    elseif vim.tbl_islist(dict[curkey]) and vim.g.leaderGuide_flatten == 1 then
       local cmd = escape_mappings(map)
       curkey = table.concat(map.lhs, '', level)
       nlevel = level
       if not dict[curkey] then
         dict[curkey] = { cmd, map.display }
       end
-    elseif cmp.islist(dict[curkey]) and vim.g.leaderGuide_flatten == 0 then
+    elseif vim.tbl_islist(dict[curkey]) and vim.g.leaderGuide_flatten == 0 then
       curkey = curkey .. 'm'
       if not dict[curkey] then
         dict[curkey] = { name = vim.g.leaderGuide_default_group_name }
       end
     end
-    if not cmp.islist(dict[curkey]) then
+    if not vim.tbl_islist(dict[curkey]) then
       add_map_to_dict(map, nlevel, dict[curkey])
     end
   else
     local cmd = escape_mappings(map)
     if not dict[map.lhs[level]] then
       dict[map.lhs[level]] = { cmd, map.display }
-    elseif not cmp.islist(dict[map.lhs[level]]) and vim.g.leaderGuide_flatten == 1 then
+    elseif not vim.tbl_islist(dict[map.lhs[level]]) and vim.g.leaderGuide_flatten == 1 then
       local childmap = flattenmap(dict[map.lhs[level]], map.lhs[level])
       for it, _ in pairs(childmap) do
         dict[it] = childmap[it]
@@ -273,7 +268,7 @@ local function start_parser(key, dict)
     mapd.lhs = cmp.fn.substitute(mapd.lhs, key, '', '')
     mapd.lhs = cmp.fn.substitute(mapd.lhs, '<Space>', ' ', 'g')
     mapd.lhs = cmp.fn.substitute(mapd.lhs, '<Tab>', '<C-I>', 'g')
-    mapd.rhs = cmp.fn.substitute(mapd.rhs, '<SID>', '<SNR>' .. (mapd['sid'] or '') .. '_', 'g')
+    mapd.rhs = cmp.fn.substitute(mapd.rhs, '<SID>', '<SNR>' .. mapd['sid'] .. '_', 'g')
     if mapd.lhs ~= '' and mapd.display ~= 'LeaderGuide.*' then
       mapd.lhs = string_to_keys(mapd.lhs)
       if
@@ -287,43 +282,22 @@ local function start_parser(key, dict)
   end
 end
 
----@param v string key board string
----@return string # displayed string of each item
-local function get_displaystring(v)
-  local desc = ''
-  if lmap[v].name then
-    desc = lmap[v].name
-  else
-    desc = lmap[v][2] or ''
-  end
-  local offset = string.rep(' ', 8 - #v)
-  local displaystring
-  if vim.g.spacevim_leader_guide_theme == 'whichkey' then
-    displaystring = offset .. v .. ' -> ' .. desc
-  else
-    displaystring = offset .. '[' .. v .. '] ' .. desc
-  end
-  return displaystring
-end
-
 local function calc_layout()
   local ret = {}
 
-  local smap = {}
 
-  for k, v in pairs(lmap) do
-    if v ~= 'name' then
-      smap[k] = v
-    end
-  end
-
+  local smap = vim.fn.filter(vim.fn.copy(lmap), 'v:key !=# "name"')
   ret.n_items = vim.fn.len(smap)
   local length = {}
-  for k, _ in pairs(smap) do
-    table.insert(length, vim.fn.strdisplaywidth(get_displaystring(k)))
+  for k, v in pairs(smap) do
+    if v.name then
+      table.insert(length, vim.fn.strdisplaywidth('[' .. k .. ']' .. v.name))
+    else
+      table.insert(length, vim.fn.strdisplaywidth('[' .. k .. ']' .. v[2]))
+    end
   end
   local maxlength = vim.fn.max(length) + vim.g.leaderGuide_hspace
-  log.debug('maxlength is:' .. maxlength)
+
   if vim.g.leaderGuide_vertical == 1 then
     ret.n_rows = vim.fn.winheight(0) - 2
     ret.n_cols = math.floor(ret.n_items / ret.n_rows)
@@ -345,7 +319,6 @@ local function calc_layout()
     end
     ret.win_dim = ret.n_rows
   end
-  log.debug('layout is:' .. vim.inspect(ret))
   return ret
 end
 
@@ -423,7 +396,19 @@ local function create_string(layout)
   table.sort(smap, compare_key)
 
   for _, k in ipairs(smap) do
-    local displaystring = get_displaystring(k)
+    local desc = ''
+    if lmap[k].name then
+      desc = lmap[k].name
+    else
+      desc = lmap[k][2] or ''
+    end
+    local offset = string.rep(' ', 8 - #k)
+    local displaystring
+    if vim.g.spacevim_leader_guide_theme == 'whichkey' then
+      displaystring = offset .. k .. ' -> ' .. desc
+    else
+      displaystring = offset .. '[' .. k .. '] ' .. desc
+    end
     crow = rows[row] or {}
 
     if #crow == 0 then
@@ -431,10 +416,10 @@ local function create_string(layout)
     end
     -- if the displaystring is too long
     if #displaystring > l.col_width then
-      table.insert(crow, string.sub(displaystring, 1, l.col_width - 5) .. '...  ')
+      table.insert(crow, string.sub(displaystring, 1, l.col_width -5) .. '...  ')
     else
       table.insert(crow, displaystring)
-      table.insert(crow, string.rep(' ', l.col_width - vim.fn.strdisplaywidth(displaystring)))
+      table.insert(crow, vim.fn['repeat'](' ', l.col_width - vim.fn.strdisplaywidth(displaystring)))
     end
     if vim.g.leaderGuide_sort_horizontal == 0 then
       if row > n_rows then
@@ -470,16 +455,8 @@ local function create_string(layout)
   return r
 end
 
-local cursor_highlight_info
 local function highlight_cursor()
-  cursor_highlight_info = hl.group2dict('Cursor')
-  local hlinfo = {
-    name = 'SpaceVimGuideCursor',
-    guibg = cursor_highlight_info.guibg,
-    ctermbg = cursor_highlight_info.ctermbg,
-  }
-  hl.hi(hlinfo)
-  hl.hide_in_normal('Cursor')
+  vim.cmd('hi! def link SpaceVimGuideCursor Cursor')
   if vis == 'gv' then
     local _begin = vim.fn.getpos("'<")
     local _end = vim.fn.getpos("'>")
@@ -503,7 +480,6 @@ local function highlight_cursor()
 end
 
 local function remove_cursor_highlight()
-  hl.hi(cursor_highlight_info)
   pcall(vim.fn.matchdelete, cursor_hilight_id)
 end
 
@@ -529,46 +505,47 @@ local function updateStatusline()
   end
   local keys = prefix_key_inp
 
-  local separators = {
-    arrow = '',
-    curve = '',
-    slant = '',
-    brace = '',
-    fire = '',
-    ['nil'] = '',
-  }
-  local sep = separators[vim.g.spacevim_statusline_separator] or separators.arrow
   SL.open_float({
     { 'Guide: ', 'LeaderGuiderPrompt' },
-    { sep .. ' ', 'LeaderGuiderSep1' },
+    { ' ', 'LeaderGuiderSep1' },
     {
-      M.getName(prefix_key) .. table.concat(keys, '') .. gname,
+      vim.fn['SpaceVim#mapping#leader#getName'](prefix_key) .. table.concat(keys, '') .. gname,
       'LeaderGuiderName',
     },
-    { sep .. ' ', 'LeaderGuiderSep2' },
+    { ' ', 'LeaderGuiderSep2' },
     { guide_help_msg(false), 'LeaderGuiderFill' },
     { string.rep(' ', 999), 'LeaderGuiderFill' },
-  }, true)
+  })
 end
 
+local function setlocalopt(buf, win, opts)
+  for o, value in pairs(opts) do
+    local info = vim.api.nvim_get_option_info2(o, {})
+    if info.scope == 'win' then
+      vim.api.nvim_set_option_value(o, value, {
+        win = win,
+      })
+    elseif info.scope == 'buf' then
+      vim.api.nvim_set_option_value(o, value, {
+        buf = buf,
+      })
+    end
+  end
+end
 local function winopen()
   highlight_cursor()
   if not vim.api.nvim_buf_is_valid(bufnr) then
     bufnr = buffer.create_buf(false, true)
   end
-  local opt = {
+  winid = vim.api.nvim_open_win(bufnr, true, {
     relative = 'editor',
     width = vim.o.columns,
     height = 12,
     row = vim.o.lines - 14,
     col = 0,
-  }
-  if vim.fn.has('nvim-0.10.0') == 1 then
-    opt.hide = true
-  end
-  winid = vim.api.nvim_open_win(bufnr, false, opt)
+  })
   guide_help_mode = false
-  vopt.setlocalopt(bufnr, winid, {
+  setlocalopt(bufnr, winid, {
     winhighlight = 'Normal:Pmenu,Search:',
     filetype = 'leaderGuide',
     number = false,
@@ -586,12 +563,11 @@ local function winopen()
     winfixwidth = true,
     winfixheight = true,
   })
+  updateStatusline()
   return winid, bufnr
 end
 local function start_buffer()
-  if not vim.api.nvim_win_is_valid(winid) or not vim.api.nvim_buf_is_valid(bufnr) then
-    winid, bufnr = winopen()
-  end
+  winid, bufnr = winopen()
   local layout = calc_layout()
   local text = create_string(layout)
   if vim.g.leaderGuide_max_size then
@@ -607,13 +583,12 @@ local function start_buffer()
     col = 0,
   })
 
-  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, text)
 
-  updateStatusline()
+  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, text)
 
   cmp.fn.setbufvar(bufnr, '&modifiable', 0)
 
-  vim.cmd('redraw')
+  vim.cmd('redraw!')
 
   wait_for_input()
 end
@@ -628,18 +603,17 @@ local function winclose()
 end
 
 local function handle_input(input)
-  if not cmp.islist(input) then
+  winclose()
+  if not vim.tbl_islist(input) then
     lmap = input
     start_buffer()
   else
-    winclose()
-    vim.cmd('doautocmd WinEnter,BufEnter')
     prefix_key_inp = {}
     cmp.fn.feedkeys(vis .. reg .. count, 'ti')
 
     --- redraw!
 
-    local ok, _ = pcall(vim.fn.execute, input[1], '')
+    local ok, _ = pcall(vim.fn.execute, input[1])
     if not ok then
       print(vim.v.exception)
     end
@@ -647,20 +621,14 @@ local function handle_input(input)
 end
 
 local function page_down()
-  if vim.api.nvim_win_is_valid(winid) then
-    local cursor = vim.api.nvim_win_get_cursor(winid)[1]
-    local height = vim.api.nvim_win_get_config(winid).height
-    if cursor + height < vim.api.nvim_buf_line_count(bufnr) then
-      vim.api.nvim_win_set_cursor(winid, {cursor + height, 1})
-    else
-      vim.api.nvim_win_set_cursor(winid, {vim.api.nvim_buf_line_count(bufnr), 1})
-    end
-  end
+  -- vim.api.nvim_feedkeys(Key.t('<C-c>'), 'n', false)
+  vim.api.nvim_feedkeys(Key.t('<C-d>'), 'x', false)
   vim.cmd('redraw!')
   wait_for_input()
 end
 
 local function page_undo()
+  winclose()
   if #prefix_key_inp then
     table.remove(prefix_key_inp)
   end
@@ -671,15 +639,9 @@ local function page_undo()
 end
 
 local function page_up()
-  if vim.api.nvim_win_is_valid(winid) then
-    local cursor = vim.api.nvim_win_get_cursor(winid)[1]
-    local height = vim.api.nvim_win_get_config(winid).height
-    if cursor - height > 1 then
-      vim.api.nvim_win_set_cursor(winid, {cursor - height, 1})
-    else
-      vim.api.nvim_win_set_cursor(winid, {1, 1})
-    end
-  end
+
+  -- vim.api.nvim_feedkeys(Key.t('<C-c>'), 'n', false)
+  vim.api.nvim_feedkeys(Key.t('<C-u>'), 'x', false)
   vim.cmd('redraw!')
   wait_for_input()
 end
@@ -712,19 +674,9 @@ local function warn_not_defined(mpt)
   }, false, {})
 end
 
-local function show_win(_)
-  if vim.api.nvim_win_is_valid(winid) then
-    vim.api.nvim_win_set_config(winid, { hide = false })
-  end
-  SL.show()
-end
-
 wait_for_input = function()
   log.debug('wait for input:')
   local t = Key.t
-  if vim.fn.has('nvim-0.10.0') == 1 then
-    vim.fn.timer_start(10, show_win)
-  end
   local inp = VIM.getchar()
   log.debug('inp is:' .. inp)
   if inp == t('<Esc>') then
@@ -732,7 +684,7 @@ wait_for_input = function()
     undo_history = {}
     guide_help_mode = false
     winclose()
-    vim.cmd('doautocmd WinEnter,BufEnter')
+    vim.cmd('doautocmd WinEnter')
   elseif guide_help_mode then
     submode_mappings(inp)
     guide_help_mode = false
@@ -754,14 +706,14 @@ wait_for_input = function()
       handle_input(fsel)
     else
       winclose()
-      vim.cmd('doautocmd WinEnter,BufEnter')
+      vim.cmd('doautocmd WinEnter')
       local keys = prefix_key_inp
       local name = M.getName(prefix_key)
       local _keys = vim.fn.join(keys, '-')
       if vim.fn.empty(_keys) == 1 then
-        warn_not_defined({ 'Key binding not defined: ', name .. '-' .. inp })
+        warn_not_defined({ 'Key bindings is not defined: ', name .. '-' .. inp })
       else
-        warn_not_defined({ 'Key binding not defined: ', name .. '-' .. _keys .. '-' .. inp })
+        warn_not_defined({ 'key bindings is not defined: ', name .. '-' .. _keys .. '-' .. inp })
       end
       prefix_key_inp = {}
       guide_help_mode = false
@@ -858,20 +810,8 @@ function M.parse_mappings()
   end
 end
 
-function M.getName(key)
-  if key == ' ' then
-    return '[SPC]'
-  elseif key == 'g' then
-    return '[g]'
-  elseif key == 'z' then
-    return '[z]'
-  elseif key == vim.g.spacevim_windows_leader then
-    return '[WIN]'
-  elseif key == '\\' then
-    return '<leader>'
-  else
-    return ''
-  end
+function M.getName(p)
+  return vim.fn['SpaceVim#mapping#leader#getName'](p)
 end
 
 return M

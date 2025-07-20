@@ -7,9 +7,11 @@ description: "General documentation about how to use SpaceVim, including the qui
 
 <!-- vim-markdown-toc GFM -->
 
-- [Highlighted Features](#highlighted-features)
+- [Core Pillars](#core-pillars)
+- [Highlighted features](#highlighted-features)
 - [Screenshots](#screenshots)
-- [New Concepts](#new-concepts)
+- [Concepts](#concepts)
+- [Who can benefit from this?](#who-can-benefit-from-this)
 - [Update and Rollback](#update-and-rollback)
   - [Update SpaceVim itself](#update-spacevim-itself)
   - [Update plugins](#update-plugins)
@@ -47,11 +49,9 @@ description: "General documentation about how to use SpaceVim, including the qui
     - [Commenting](#commenting)
     - [Undo tree](#undo-tree)
     - [Multi-Encodings](#multi-encodings)
-  - [Windows and Tabs](#windows-and-tabs)
-    - [Windows Manager](#windows-manager)
+  - [Window manager](#window-manager)
     - [General Editor windows](#general-editor-windows)
     - [Window manipulation key bindings](#window-manipulation-key-bindings)
-    - [Tabs manipulation key bindings](#tabs-manipulation-key-bindings)
   - [Buffers and Files](#buffers-and-files)
     - [Buffers manipulation key bindings](#buffers-manipulation-key-bindings)
     - [Create a new empty buffer](#create-a-new-empty-buffer)
@@ -97,15 +97,47 @@ description: "General documentation about how to use SpaceVim, including the qui
 
 <!-- vim-markdown-toc -->
 
-## Highlighted Features
+## Core Pillars
 
-- **Modularization:** Plugins are organized in [layers](https://spacevim.org/layers/).
-- **Compatible API:** A series of [compatible API](https://spacevim.org/api/) for Vim/Neovim.
-- **Great documentation:** Everything is documented in `:h SpaceVim`.
-- **Better experience:** Most of the core plugins have been rewritten using Lua.
-- **Beautiful UI:** The interface has been carefully designed.
-- **Mnemonic key bindings:** Key bindings are organized using mnemonic prefixes.
-- **Lower the risk of RSI:** Heavily using the `<Space>` key instead of modifiers.
+Four core pillars: Mnemonic, Discoverable, Consistent and “Crowd-Configured”.
+
+If any of these core pillars are violated open an issue, and we’ll try our best to fix it.
+
+**Mnemonic**
+
+Key bindings are organized using mnemonic prefixes,
+like b for buffer, p for project, s for search, h for help,
+etc…
+
+**Discoverable**
+
+Innovative real-time display of available key bindings.
+Simple query system to quickly find available layers,
+packages, and more.
+
+**Consistent**
+
+Similar functionalities have the same key bindings
+everywhere thanks to a clearly defined set of conventions.
+Documentation is mandatory for any layer that ships with
+SpaceVim.
+
+**Crowd-Configured**
+
+Community-driven configuration provides curated
+packages tuned by power users and bugs are fixed quickly.
+
+## Highlighted features
+
+- **Modularization:** plugins and functions are organized in [layers](https://spacevim.org/layers/).
+- **Compatible api:** a series of [compatible APIs](https://spacevim.org/api/) for Vim/Neovim.
+- **Great documentation:** online [documentation](https://spacevim.org/documentation/) and `:h SpaceVim`.
+- **Better experience:** rewrite core plugins using lua
+- **Beautiful UI:** you'll love the awesome UI and its useful features.
+- **Mnemonic key bindings:** key binding guide will be displayed automatically
+- **Fast boot time:** Lazy-load 90% of plugins with [dein.vim](https://github.com/Shougo/dein.vim)
+- **Lower the risk of RSI:** by heavily using the space bar instead of modifiers.
+- **Consistent experience:** consistent experience between terminal and gui
 
 ## Screenshots
 
@@ -121,7 +153,7 @@ description: "General documentation about how to use SpaceVim, including the qui
 - windows: Git remotes, outline, Todos, Code runner, Terminal, file explore.
 - code completion engine: nvim-cmp
 
-## New Concepts
+## Concepts
 
 **Transient-states**
 
@@ -135,6 +167,14 @@ transient state buffer. Additional information may as well be displayed in it.
 Move Text Transient State:
 
 ![Move Text Transient State](https://img.spacevim.org/28489559-4fbc1930-6ef8-11e7-9d5a-716fe8dbb881.png)
+
+## Who can benefit from this?
+
+- **Elementary** Vim users.
+- Vim users pursuing a beautiful appearance.
+- Vim users wanting to lower the [risk of RSI](http://en.wikipedia.org/wiki/Repetitive_strain_injury).
+- Vim users wanting to learn a different way to edit files.
+- Vim users wanting a simple but deep configuration system.
 
 ## Update and Rollback
 
@@ -637,15 +677,6 @@ By default SpaceVim uses nerd-fonts, which can be downloaded from their [website
 
 When syntax checking major mode is enabled, a new element appears showing the number of errors and warnings.
 
-The default highlight group and colors are:
-
-| highlight group             | color     |
-| --------------------------- | --------- |
-| `SpaceVim_statusline_error` | `#ffc0b9` |
-| `SpaceVim_statusline_warn`  | `#fce094` |
-| `SpaceVim_statusline_info`  | `#8cf8f7` |
-| `SpaceVim_statusline_hint`  | `#a6dbff` |
-
 **Search index integration:**
 
 Search index shows the number of occurrences when performing a search via `/` or `?`.
@@ -818,13 +849,6 @@ of them will be listed on the tabline. Each item can be quickly accessed by usin
 | `<Leader> 8` | Jump to index 8 on tabline                      |
 | `<Leader> 9` | Jump to index 9 on tabline                      |
 | `g r`        | Switch to alternate tab (switch back and forth) |
-
-The following two key bindings require neovim v0.10.0+.
-
-| Key Bindings       | Descriptions                     |
-| ------------------ | -------------------------------- |
-| `Ctrl-Shift-Right` | move current buffer to the right |
-| `Ctrl-Shift-Left`  | move current buffer to the left  |
 
 **Note:** `SPC Tab` is the key binding for switching to alternate buffer.
 Read [Buffers and Files](#buffers-and-files) section for more info.
@@ -1015,9 +1039,8 @@ can be used in command line mode:
 
 ### Mappings guide
 
-The mapping guide windows will be opened each time the prefix key is pressed
-in normal/visual mode. It will list all available key bindings and the short
-descriptions. The prefix can be `[SPC]`, `[WIN]` or `<Leader>`.
+A guide buffer is displayed each time the prefix key is pressed in normal mode. It lists the available key bindings and their short descriptions.
+The prefix can be `[SPC]`, `[WIN]` and `<Leader>`.
 
 The prefixes are mapped to the following keys by default:
 
@@ -1353,9 +1376,7 @@ set enc=utf-8
 write
 ```
 
-### Windows and Tabs
-
-#### Windows Manager
+### Window manager
 
 Window manager key bindings can only be used in normal mode. The default leader `[WIN]` is `s`, you
 can change it via `windows_leader` in the `[options]` section:
@@ -1450,41 +1471,34 @@ Windows manipulation commands (start with `w`):
 | `SPC w W`             | select window using vim-choosewin                                             |
 | `SPC w x`             | exchange current window with next one                                         |
 
-#### Tabs manipulation key bindings
-
-Tab manipulation commands (start with `F`):
-
-| Key Bindings | Descriptions      |
-| ------------ | ----------------- |
-| `SPC F d`    | close current tab |
-| `SPC F D`    | close other tabs  |
-| `SPC F n`    | create a new tab  |
-
 ### Buffers and Files
 
 #### Buffers manipulation key bindings
 
 Buffer manipulation commands (start with `b`):
 
-| Key Bindings         | Descriptions                                                             |
-| -------------------- | ------------------------------------------------------------------------ |
-| `SPC <Tab>`          | switch to alternate buffer in the current window (switch back and forth) |
-| `SPC b .`            | buffer transient state                                                   |
-| `SPC b b`            | switch to a buffer (via denite/unite)                                    |
-| `SPC b d`            | kill the current buffer (does not delete the visited file)               |
-| `SPC b D`            | kill a visible buffer using vim-choosewin                                |
-| `SPC b Ctrl-d`       | kill other buffers                                                       |
-| `SPC b Ctrl-Shift-d` | kill buffers using a regular expression                                  |
-| `SPC b e`            | erase the content of the buffer (ask for confirmation)                   |
-| `SPC b n`            | switch to next buffer avoiding special buffers                           |
-| `SPC b m`            | open _Messages_ buffer                                                   |
-| `SPC b o`            | kill all saved buffers and windows except the current one                |
-| `SPC b p`            | switch to previous buffer avoiding special buffers                       |
-| `SPC b P`            | copy clipboard and replace buffer (useful when pasting from a browser)   |
-| `SPC b R`            | revert the current buffer (reload from disk)                             |
-| `SPC b s`            | switch to the _scratch_ buffer (create it if needed)                     |
-| `SPC b w`            | toggle read-only (writable state)                                        |
-| `SPC b Y`            | copy whole buffer to clipboard (useful when copying to a browser)        |
+| Key Bindings         | Descriptions                                                                   |
+| -------------------- | ------------------------------------------------------------------------------ |
+| `SPC <Tab>`          | switch to alternate buffer in the current window (switch back and forth)       |
+| `SPC b .`            | buffer transient state                                                         |
+| `SPC b b`            | switch to a buffer (via denite/unite)                                          |
+| `SPC b d`            | kill the current buffer (does not delete the visited file)                     |
+| `SPC u SPC b d`      | kill the current buffer and window (does not delete the visited file) (TODO)   |
+| `SPC b D`            | kill a visible buffer using vim-choosewin                                      |
+| `SPC u SPC b D`      | kill a visible buffer and its window using ace-window(TODO)                    |
+| `SPC b Ctrl-d`       | kill other buffers                                                             |
+| `SPC b Ctrl-Shift-d` | kill buffers using a regular expression                                        |
+| `SPC b e`            | erase the content of the buffer (ask for confirmation)                         |
+| `SPC b n`            | switch to next buffer avoiding special buffers                                 |
+| `SPC b m`            | open _Messages_ buffer                                                         |
+| `SPC b o`            | kill all saved buffers and windows except the current one                      |
+| `SPC b p`            | switch to previous buffer avoiding special buffers                             |
+| `SPC b P`            | copy clipboard and replace buffer (useful when pasting from a browser)         |
+| `SPC b R`            | revert the current buffer (reload from disk)                                   |
+| `SPC b s`            | switch to the _scratch_ buffer (create it if needed)                           |
+| `SPC b w`            | toggle read-only (writable state)                                              |
+| `SPC b Y`            | copy whole buffer to clipboard (useful when copying to a browser)              |
+| `z f`                | Make current function or comments visible in buffer as much as possible (TODO) |
 
 #### Create a new empty buffer
 
@@ -2523,39 +2537,39 @@ Key bindings within repl buffer:
 
 ### Highlight current symbol
 
-SpaceVim supports highlighting current symbol on demand and add a transient
-state to easily navigate and rename these symbols.
+SpaceVim supports highlighting of the current symbol on demand and add a transient state to easily navigate and rename these symbols.
 
-It is also possible to change the range of the navigation on the fly, the
-available ranges are:
+It is also possible to change the range of the navigation on the fly to:
 
-1. buffer: the whole buffer
-2. function: in current function
-3. visible area: in current visible area of the buffer
+- buffer
+- function
+- visible area
 
-The default key binding to Highlight the symbol under the cursor is `SPC s h`.
+To Highlight the current symbol under the cursor press `SPC s h`.
 
-| Key Bindings | Descriptions                                  |
-| ------------ | --------------------------------------------- |
-| `*`          | highlight current symbol and jump forwards    |
-| `#`          | highlight current symbol and jump backwards   |
-| `SPC s e`    | start iedit mode on current symbol            |
-| `SPC s h`    | highlight current symbol within default range |
-| `SPC s H`    | highlight last symbol within default range    |
+Navigation between the highlighted symbols can be done with the commands:
 
-In highlight symbol transient state, the following key bindings can be used:
+| Key Bindings | Descriptions                                                                 |
+| ------------ | ---------------------------------------------------------------------------- |
+| `*`          | initiate navigation transient state on current symbol and jump forwards      |
+| `#`          | initiate navigation transient state on current symbol and jump backwards     |
+| `SPC s e`    | edit all occurrences of the current symbol                                   |
+| `SPC s h`    | highlight the current symbol and all its occurrence within the current range |
+| `SPC s H`    | go to the last searched occurrence of the last highlighted symbol            |
 
-| Key Bindings  | Descriptions                         |
-| ------------- | ------------------------------------ |
-| `e`           | start iedit mode                     |
-| `n`           | go to next occurrence                |
-| `N` / `p`     | go to previous occurrence            |
-| `b`           | search occurrence in all buffers     |
-| `/`           | search occurrence in whole project   |
-| `<Tab>`       | toggle highlight current occurrence  |
-| `r`           | change range                         |
-| `R`           | go to home occurrence                |
-| Any other key | leave the navigation transient state |
+In highlight symbol transient state:
+
+| Key Bindings  | Descriptions                                                  |
+| ------------- | ------------------------------------------------------------- |
+| `e`           | edit occurrences (`*`)                                        |
+| `n`           | go to next occurrence                                         |
+| `N` / `p`     | go to previous occurrence                                     |
+| `b`           | search occurrence in all buffers                              |
+| `/`           | search occurrence in whole project                            |
+| `<Tab>`       | toggle highlight current occurrence                           |
+| `r`           | change range (function, display area, whole buffer)           |
+| `R`           | go to home occurrence (reset position to starting occurrence) |
+| Any other key | leave the navigation transient state                          |
 
 ### Error handling
 
@@ -2613,4 +2627,5 @@ export PATH=$PATH:$HOME/.SpaceVim/bin
 ```
 
 Use `svc` to open a file in the existing Vim server, or use `nsvc` to open a file in the existing Neovim server.
+
 ![server-and-client](https://img.spacevim.org/32554968-7164fe9c-c4d6-11e7-95f7-f6a6ea75e05b.gif)

@@ -6,7 +6,6 @@ description: "A general guide for using SpaceVim as PHP IDE, including layer con
 type: article
 comments: true
 commentsID: "Use Vim as a PHP IDE"
-language: PHP
 ---
 
 # [Blogs](../blog/) >> Use Vim as a PHP IDE

@@ -45,11 +45,7 @@ let g:gtags_open_list = 2
 
 function! SpaceVim#layers#gtags#plugins() abort
   return [
-        \ [g:_spacevim_root_dir . 'bundle/gtags.vim',
-        \ { 'merged' : 0,
-        \ 'on_cmd' : ['Gtags', 'GtagsGenerate'],
-        \ 'on_func' : ['gtags#update', 'ctags#update'],
-        \ }]
+        \ [g:_spacevim_root_dir . 'bundle/gtags.vim', { 'merged' : 0}]
         \ ]
 endfunction
 
@@ -112,12 +108,6 @@ function! SpaceVim#layers#gtags#health() abort
     augroup END
   endif
   return 1
-endfunction
-
-function! SpaceVim#layers#gtags#loadable() abort
-
-  return 1
-
 endfunction
 
 function! SpaceVim#layers#gtags#get_options() abort

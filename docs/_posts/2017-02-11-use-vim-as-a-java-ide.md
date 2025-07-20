@@ -6,7 +6,6 @@ redirect_from: "/2017/02/11/use-vim-as-a-java-ide.html"
 type: article
 comments: true
 commentsID: "Use Vim as a Java IDE"
-language: Java
 ---
 
 # [Blogs](../blog/) >> Use Vim as a Java IDE
@@ -39,6 +38,10 @@ Each of the following sections will be covered:
 <!-- vim-markdown-toc -->
 
 This tutorial is not intended to teach you Java itself.
+
+If you have any problems,
+feel free to join the [SpaceVim matrix room](https://app.element.io/#/room/#spacevim:matrix.org)
+for general discussion.
 
 ### Enable language layer
 

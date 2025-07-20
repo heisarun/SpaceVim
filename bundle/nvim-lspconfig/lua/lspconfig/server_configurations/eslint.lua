@@ -1,20 +1,10 @@
 local util = require 'lspconfig.util'
 local lsp = vim.lsp
 
-local get_eslint_client = function()
-  local active_clients = lsp.get_active_clients()
-  for _, client in ipairs(active_clients) do
-    if client.name == 'eslint' then
-      return client
-    end
-  end
-  return nil
-end
-
 local function fix_all(opts)
   opts = opts or {}
 
-  local eslint_lsp_client = get_eslint_client()
+  local eslint_lsp_client = util.get_active_client_by_name(opts.bufnr, 'eslint')
   if eslint_lsp_client == nil then
     return
   end
@@ -43,9 +33,15 @@ local function fix_all(opts)
 end
 
 local bin_name = 'vscode-eslint-language-server'
+local cmd = { bin_name, '--stdio' }
+
+if vim.fn.has 'win32' == 1 then
+  cmd = { 'cmd.exe', '/C', bin_name, '--stdio' }
+end
+
 return {
   default_config = {
-    cmd = { bin_name, '--stdio' },
+    cmd = cmd,
     filetypes = {
       'javascript',
       'javascriptreact',
@@ -57,6 +53,7 @@ return {
     },
     -- https://eslint.org/docs/user-guide/configuring/configuration-files#configuration-file-formats
     root_dir = util.root_pattern(
+      '.eslintrc',
       '.eslintrc.js',
       '.eslintrc.cjs',
       '.eslintrc.yaml',
@@ -101,6 +98,13 @@ return {
         uri = new_root_dir,
         name = vim.fn.fnamemodify(new_root_dir, ':t'),
       }
+
+      -- Support Yarn2 (PnP) projects
+      local pnp_cjs = util.path.join(new_root_dir, '.pnp.cjs')
+      local pnp_js = util.path.join(new_root_dir, '.pnp.js')
+      if util.path.exists(pnp_cjs) or util.path.exists(pnp_js) then
+        config.cmd = vim.list_extend({ 'yarn', 'exec' }, cmd)
+      end
     end,
     handlers = {
       ['eslint/openDoc'] = function(_, result)
@@ -110,6 +114,8 @@ return {
         local sysname = vim.loop.os_uname().sysname
         if sysname:match 'Windows' then
           os.execute(string.format('start %q', result.url))
+        elseif sysname:match 'Linux' then
+          os.execute(string.format('xdg-open %q', result.url))
         else
           os.execute(string.format('open %q', result.url))
         end
@@ -143,22 +149,23 @@ return {
     description = [[
 https://github.com/hrsh7th/vscode-langservers-extracted
 
-vscode-eslint-language-server: A linting engine for JavaScript / Typescript
+`vscode-eslint-language-server` is a linting engine for JavaScript / Typescript.
+It can be installed via `npm`:
 
-`vscode-eslint-language-server` can be installed via `npm`:
 ```sh
 npm i -g vscode-langservers-extracted
 ```
 
-vscode-eslint-language-server provides an EslintFixAll command that can be used to format document on save
+`vscode-eslint-language-server` provides an `EslintFixAll` command that can be used to format a document on save:
 ```vim
-autocmd BufWritePre <buffer> <cmd>EslintFixAll<CR>
+autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js EslintFixAll
 ```
 
 See [vscode-eslint](https://github.com/microsoft/vscode-eslint/blob/55871979d7af184bf09af491b6ea35ebd56822cf/server/src/eslintServer.ts#L216-L229) for configuration options.
 
-Additional messages you can handle: eslint/noConfig
-Messages already handled in lspconfig: eslint/openDoc, eslint/confirmESLintExecution, eslint/probeFailed, eslint/noLibrary
+Messages handled in lspconfig: `eslint/openDoc`, `eslint/confirmESLintExecution`, `eslint/probeFailed`, `eslint/noLibrary`
+
+Additional messages you can handle: `eslint/noConfig`
 ]],
   },
 }

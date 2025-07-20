@@ -8,11 +8,11 @@ description: "The roadmap and milestones define the project direction and priori
 The roadmap defines the project direction and priorities.
 If you have any suggestions , please checkout feedback section on [community](../community/) page.
 
-## To-Do List
+## Milestones
 
 - `v2.4.0`: Due by 2024-12-01
-  - [x] rewrite statusline plugin with lua
-  - [x] rewrite tabline plugin with lua
+  - [ ] rewrite statusline plugin with lua
+  - [ ] rewrite tabline plugin with lua
   - [ ] merge website context into `:h SpaceVim`
 
 ## Completed

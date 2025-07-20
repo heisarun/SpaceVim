@@ -6,7 +6,6 @@ description: "A general guide for using SpaceVim as Rust IDE, including layer co
 type: article
 comments: true
 commentsID: "Use Vim as a Rust IDE"
-language: Rust
 ---
 
 # [Blogs](../blog/) >> Use Vim as a Rust IDE

@@ -41,12 +41,8 @@ function! s:load_plugins() abort
         call SpaceVim#plugins#add(plugin[0], {'overwrite' : 1})
       endif
     endfor
+    call s:loadLayerConfig(layer)
   endfor
-  if has('timers')
-    call timer_start(g:spacevim_lazy_conf_timeout, function('s:layer_config_timer'), {'repeat' : 1})
-  else
-    call s:layer_config_timer(0)
-  endif
   unlet g:_spacevim_plugin_layer
   for plugin in g:spacevim_custom_plugins
     if len(plugin) == 2
@@ -62,15 +58,8 @@ function! s:getLayerPlugins(layer) abort
   try
     let p = SpaceVim#layers#{a:layer}#plugins()
   catch /^Vim\%((\a\+)\)\=:E117/
-    call SpaceVim#logger#info(a:layer . ' layer do not implement plugins function')
   endtry
   return p
-endfunction
-
-function! s:layer_config_timer(t) abort
-  for layer in SpaceVim#layers#get()
-    call s:loadLayerConfig(layer)
-  endfor
 endfunction
 
 function! s:loadLayerConfig(layer) abort
@@ -78,8 +67,8 @@ function! s:loadLayerConfig(layer) abort
   try
     call SpaceVim#layers#{a:layer}#config()
   catch /^Vim\%((\a\+)\)\=:E117/
-    call SpaceVim#logger#info(a:layer . ' layer do not implement config function')
   endtry
+
 endfunction
 
 let s:plugins_argv = ['-update', '-openurl']
@@ -168,8 +157,6 @@ call s:install_manager()
 
 
 function! SpaceVim#plugins#begin(path) abort
-let g:unite_source_menu_menus =
-      \ get(g:,'unite_source_menu_menus',{})
   let g:unite_source_menu_menus.AddedPlugins =
         \ {'description':
         \ 'All the Added plugins'
@@ -254,12 +241,8 @@ endfunction
 
 let s:plugins = []
 
-fu! s:parser(repo, args) abort
-  let p = a:args
-  if a:repo =~# g:_spacevim_root_dir . 'bundle/'
-    let p.type = 'none'
-  endif
-  return p
+fu! s:parser(args) abort
+  return a:args
 endf
 let g:_spacevim_plugins = []
 function! SpaceVim#plugins#add(repo,...) abort
@@ -269,7 +252,7 @@ function! SpaceVim#plugins#add(repo,...) abort
     let g:spacevim_plugin_name = split(a:repo, '/')[-1]
   elseif g:spacevim_plugin_manager ==# 'dein'
     if len(a:000) > 0
-      call dein#add(a:repo,s:parser(a:repo, a:000[0]))
+      call dein#add(a:repo,s:parser(a:000[0]))
     else
       call dein#add(a:repo)
     endif

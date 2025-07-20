@@ -3,7 +3,7 @@
 Push-Location ~
 
 $app_name = "SpaceVim"
-$repo_url = "https://github.com/SpaceVim/SpaceVim.git"
+$repo_url = "https://spacevim.org/git/repos/SpaceVim/"
 $repo_name = "SpaceVim"
 $repo_path = "$HOME\.SpaceVim"
 
@@ -19,7 +19,7 @@ echo "       \______/| ##____/ \_______/\_______/\_______/   \_/   |__|__/ |__/ 
 echo "               | ##                                                           "
 echo "               | ##                                                           "
 echo "               |__/                                                           "
-echo "                      version : v2.4.0        by : spacevim.org              "
+echo "                      version : v2.3.0         by : spacevim.org              "
 
 Function Pause ($Message = "Press any key to continue . . . ") {
     if ((Test-Path variable:psISE) -and $psISE) {
@@ -78,7 +78,7 @@ sleep 1
 
 if (!(Test-Path $HOME\.SpaceVim)) {
     echo "==> Trying to clone $app_name"
-    git clone --depth 1  $repo_url $repo_path
+    git clone $repo_url $repo_path
     echo "<== $app_name cloned"
 } else {
     echo "==> Trying to update $app_name"

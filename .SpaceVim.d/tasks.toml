@@ -273,51 +273,9 @@
 [test_regexp.problemMatcher]
     useStdout = true
 [test_regexp.problemMatcher.pattern]
-    regexp = '\(.*\):\(\d\+\):\(\d\+\)\s\(\S.*\)'
-    file = 1
-    line = 2
-    column = 3
-    #severity = 4
-    message = 4
-[open-nvim-050]
-    command = "wt.exe"
-    args = ['new-tab', '-p', 'nvim-v0.5.0']
-    isBackground = true
-[open-nvim-050.options]
-    cwd = 'C:\Users\wsdjeg\.SpaceVim'
-[open-nvim-050.options.env]
-    VIM = 'D:\Neovim\v0.5.0'
-    VIMRUNTIME = 'D:\Neovim\v0.5.0\share\nvim\runtime'
-[open-nvim-030]
-    command = "wt.exe"
-    args = ['new-tab', '-p', 'nvim-v0.3.0']
-    isBackground = true
-    description = 'open neovim v0.3.0 in new terminal tab'
-[open-nvim-030.options]
-    cwd = 'C:\Users\wsdjeg\.SpaceVim'
-[open-nvim-030.options.env]
-    VIM = 'D:\Neovim\v0.3.0\share\nvim'
-    VIMRUNTIME = 'D:\Neovim\v0.3.0\share\nvim\runtime'
-
-# test bundle scrollbar.vim
-[bundle-scrollbar-vim-812269]
-    command = 'wt.exe'
-    args = ['-d', 'D:\wsdjeg\scrollbar.vim', 'D:\Vim\gvim_8.1.2269_x64\vim.exe', '-Nu', 'test/vimrc']
-    isBackground = true
-[bundle-scrollbar-vim-812269.options.env]
-    VIM = 'D:\Vim\gvim_8.1.2269_x64'
-    VIMRUNTIME = 'D:\Vim\gvim_8.1.2269_x64'
-[bundle-scrollbar-nvim-038]
-    command = 'wt.exe'
-    args = ['-d', 'D:\wsdjeg\scrollbar.vim', 'D:\Neovim\v0.4.2\bin\nvim.exe', '-Nu', 'test/vimrc']
-    isBackground = true
-[bundle-scrollbar-nvim-038.options.env]
-    VIM = 'D:\Neovim\v0.4.2'
-    VIMRUNTIME = 'D:\Neovim\v0.4.2\share\nvim\runtime'
-[bundle-vim-zettelkasten-nvim]
-    command = 'wt.exe'
-    args = ['-d', 'D:\wsdjeg\vim-zettelkasten', 'D:\Scoop\apps\neovim\current\bin\nvim.exe', '-Nu', 'test/init.vim']
-    isBackground = true
-[bundle-vim-zettelkasten-nvim.options.env]
-    VIM = 'D:\Scoop\apps\neovim\current\share\nvim'
-    VIMRUNTIME = 'D:\Scoop\apps\neovim\current\share\nvim\runtime'
+      regexp = '\(.*\):\(\d\+\):\(\d\+\)\s\(\S.*\)'
+      file = 1
+      line = 2
+      column = 3
+      #severity = 4
+      message = 4

@@ -37,20 +37,15 @@ Volar language server for Vue
 Volar can be installed via npm:
 
 ```sh
-npm install -g @vue/language-server
+npm install -g @volar/vue-language-server
 ```
 
 Volar by default supports Vue 3 projects. Vue 2 projects need
-[additional configuration](https://github.com/vuejs/language-tools/tree/master/packages/vscode-vue#usage).
-
-**TypeScript support**
-As of release 2.0.0, Volar no longer wraps around tsserver. For typescript
-support, `tsserver` needs to be configured with the `@vue/typescript-plugin`
-plugin.
+[additional configuration](https://github.com/johnsoncodehk/volar/blob/master/extensions/vscode-vue-language-features/README.md?plain=1#L28-L63).
 
 **Take Over Mode**
 
-Volar (prior to 2.0.0), can serve as a language server for both Vue and TypeScript via [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471).
+Volar can serve as a language server for both Vue and TypeScript via [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471).
 
 To enable Take Over Mode, override the default filetypes in `setup{}` as follows:
 

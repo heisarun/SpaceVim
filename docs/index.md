@@ -3,10 +3,13 @@ title: "Home"
 description: "SpaceVim is a modular Vim/Neovim configuration that seeks to provide layer feature."
 ---
 
+[![matrix](https://img.spacevim.org/spacevim-matrix.svg)](https://app.element.io/#/room/#spacevim:matrix.org)
+[![Telegram](https://img.spacevim.org/telegram-spacevim.svg)](https://t.me/SpaceVim/)
 [![twitter](https://img.spacevim.org/twitter.svg)](https://twitter.com/SpaceVim)
 [![GPLv3 License](https://img.spacevim.org/license-GPLv3-blue.svg)](development/#license)
+[![reddit](https://img.spacevim.org/reddit.svg)](https://www.reddit.com/r/SpaceVim/)
 
-![work-flow](https://img.spacevim.org/workflow.png)
+![welcome page](https://img.spacevim.org/release-v2.3.0.png)
 
 SpaceVim is a modular configuration of Vim and Neovim.
 It's inspired by spacemacs. It manages collections of plugins in layers,
@@ -30,6 +33,8 @@ check out [following-HEAD](following-head/) page for what happened since last re
                <br>
                <span class="post-date">{{ post.date | date_to_string }}</span>
                <p>{{ post.description | truncatewords: 100 }}</p>
+               <br>
+               <img alt="{{ post.title }}" src="{{ post.image }}">
     {% endfor %}
 </ul>
 
@@ -48,14 +53,10 @@ More posts are available on the [blog](blog/) of SpaceVim.
   87
   ```
 
-- Which version of vim or neovim should be installed for SpaceVim?
+- Which Vim and Neovim versions are tested with SpaceVim?
 
-  The following versions have been tested:
-
-  - vim: `8.2.3995` `9.1.0016`
-  - neovim: `v0.6.0`, `v0.7.0`, `v0.8.0`, `v0.9.0`, `v0.9.5`, `v0.10.0`
-
-  It is recommended to use neovim v0.9.5+
+  - vim: `7.4.1185`, `7.4.1689`, `8.0.0027`, `9.1.0196`
+  - neovim: `0.7.2`, `0.8.0`, `0.9.5`
 
 For more general questions, please read the SpaceVim [FAQ](faq/).
 

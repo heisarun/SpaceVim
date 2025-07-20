@@ -8,7 +8,6 @@ lang: zh
 type: article
 comments: true
 commentsID: "使用 Vim 搭建 Perl 开发环境"
-language: Perl
 ---
 
 # [Blogs](../blog/) >> 使用 Vim 搭建 Perl 开发环境

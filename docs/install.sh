@@ -84,7 +84,7 @@ On_IWhite='\033[0;107m'   # White
 # }}}
 
 # version
-Version='2.4.0'
+Version='2.3.0'
 #System name
 System="$(uname -s)"
 # }}}
@@ -143,7 +143,7 @@ fetch_repo () {
         success "Successfully update SpaceVim"
     else
         info "Trying to clone SpaceVim"
-        git clone --depth 1 https://github.com/SpaceVim/SpaceVim.git "${XDGSpaceDir:-}"
+        git clone https://spacevim.org/git/repos/SpaceVim/ "${XDGSpaceDir:-}"
         if [ $? -eq 0 ]; then
             success "Successfully clone SpaceVim"
         else
@@ -186,10 +186,6 @@ install_neovim () {
 
         mv "${XDGnvimDir:?}" "${XDGnvimDir:-}_back"
         success "BackUp '${XDGnvimDir}' to '${XDGnvimDir}_back'"
-    fi
-
-    if [[ ! -d "$(dirname "${XDGnvimDir}")" ]]; then
-        mkdir "$(dirname "${XDGnvimDir}")"
     fi
 
     ln -s "${XDGSpaceDir:?}" "${XDGnvimDir:?}"

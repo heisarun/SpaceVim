@@ -67,9 +67,3 @@ function! SpaceVim#layers#chat#health() abort
   return 1
 
 endfunction
-
-function! SpaceVim#layers#chat#loadable() abort
-
-  return 1
-
-endfunction

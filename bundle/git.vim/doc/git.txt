@@ -1,22 +1,20 @@
 *git.txt*	Git support in vim
-Wang Shidong & Mattes Groeger                                            *git*
+Wang Shidong                                                             *git*
 
 ==============================================================================
 CONTENTS                                                        *git-contents*
-1. Introduction................................................... |git-intro|
-2. Commands.................................................... |git-commands|
-    1. git-add...................................................... |git-add|
-    2. git-branch................................................ |git-branch|
-    3. git-checkout............................................ |git-checkout|
-    4. git-cherry-pick...................................... |git-cherry-pick|
-    5. git-clean.................................................. |git-clean|
-    6. git-fetch.................................................. |git-fetch|
-    7. git-mv........................................................ |git-mv|
-    8. git-reflog................................................ |git-reflog|
-    9. git-rm........................................................ |git-rm|
-    10. git-stash................................................. |git-stash|
-    11. git-tag..................................................... |git-tag|
-3. Functions.................................................. |git-functions|
+  1. Introduction..................................................|git-intro|
+  2. Commands...................................................|git-commands|
+      1. git-add.....................................................|git-add|
+      2. git-branch...............................................|git-branch|
+      3. git-cherry-pick.....................................|git-cherry-pick|
+      4. git-clean.................................................|git-clean|
+      5. git-mv.......................................................|git-mv|
+      6. git-reflog...............................................|git-reflog|
+      7. git-rm.......................................................|git-rm|
+      8. git-stash.................................................|git-stash|
+      9. git-tag.....................................................|git-tag|
+  3. Functions.................................................|git-functions|
 
 ==============================================================================
 INTRODUCTION                                                       *git-intro*
@@ -48,14 +46,6 @@ This commands is to open branch manager.
 <
 
 ==============================================================================
-GIT-CHECKOUT                                                    *git-checkout*
-
-This comamnd is to switch branches or restore working tree files.
->
-  :Git checkout -b new_branch_name
-<
-
-==============================================================================
 GIT-CHERRY-PICK                                              *git-cherry-pick*
 
 This command is to cherry pick commit from other branch.
@@ -69,14 +59,6 @@ GIT-CLEAN                                                          *git-clean*
 This commands is to run `git clean`.
 >
   :Git clean -f
-<
-
-==============================================================================
-GIT-FETCH                                                          *git-fetch*
-
-This commands is to fetch remote repo.
->
-  :Git fetch --all
 <
 
 ==============================================================================
@@ -120,12 +102,6 @@ This commands is to run `git tag` commands.
 >
   :Git tag --list
 <
-
-COMMAND LINE COMPLETION
-
-complete git tag options after `Git tag -<cursor>`,
-
-complete git tags after `-d` option.
 
 ==============================================================================
 FUNCTIONS                                                      *git-functions*

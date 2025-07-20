@@ -6,7 +6,6 @@ description: "A general guide for using SpaceVim as CoffeeScript IDE, including 
 type: article
 comments: true
 commentsID: "Use Vim as a CoffeeScript IDE"
-language: CoffeeScript
 ---
 
 # [Blogs](../blog/) >> Use Vim as a CoffeeScript IDE

@@ -102,13 +102,7 @@ else
   let s:project_cache_path = s:FILE.unify_path(g:spacevim_data_dir, ':p') . 'SpaceVim/projects.json'
 
   function! s:cache() abort
-    try
-      let rst = writefile([s:JSON.json_encode(s:project_paths)], s:FILE.unify_path(s:project_cache_path, ':p'))
-      if rst !=# 0
-        call s:LOGGER.info('failed to write cache')
-      endif
-    catch
-    endtry
+    call writefile([s:JSON.json_encode(s:project_paths)], s:FILE.unify_path(s:project_cache_path, ':p'))
   endfunction
 
   function! s:load_cache() abort
@@ -370,7 +364,6 @@ else
     if bufname('%') =~# '\[denite\]'
           \ || bufname('%') ==# 'denite-filter'
           \ || bufname('%') ==# '\[defx\]'
-          \ || &autochdir == 1
       return
     endif
     if join(g:spacevim_project_rooter_patterns, ':') !=# join(s:spacevim_project_rooter_patterns, ':')

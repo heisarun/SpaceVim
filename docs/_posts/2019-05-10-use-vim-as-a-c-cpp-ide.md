@@ -6,7 +6,6 @@ description: "A general guide for using SpaceVim as C/C++ IDE, including layer c
 type: article
 comments: true
 commentsID: "Use Vim as a C/C++ IDE"
-language: "C/C++"
 ---
 
 # [Blogs](../blog/) >> Use Vim as a C/C++ IDE

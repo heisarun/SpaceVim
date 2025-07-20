@@ -16,8 +16,7 @@
 "
 " 1. `format_on_save`: disabled by default.
 " 2. `format_method`: set the format plugin, default plugin is `neoformat`.
-" You can also use `vim-codefmt` or `format.nvim`, `format.nvim` requires
-" neovim 0.9.0+.
+" You can also use `vim-codefmt`.
 " 3. `silent_format`: Runs the formatter without any messages.
 " 4. `format_notify_width`: set the neoformat notify window width.
 " 5. `format_notify_timeout`: set the neoformat notify clear timeout. default
@@ -58,21 +57,15 @@ function! SpaceVim#layers#format#plugins() abort
           \ ['google/vim-glaive', {'merged' : 0, 'loadconf' : 1}],
           \ ['google/vim-codefmt', {'merged' : 0}],
           \ ]
-  elseif s:format_method ==# 'format.nvim'
-    return [
-          \ [g:_spacevim_root_dir . 'bundle/format.nvim', {'merged' : 0, 'loadconf' : 1, 'loadconf_before' : 1}],
-          \ ]
   endif
 endfunction
 
 function! SpaceVim#layers#format#config() abort
 
   if s:format_method ==# 'neoformat'
-    call SpaceVim#mapping#space#def('nnoremap', ['b', 'f'], ":Neoformat\<Cr>", 'format-code', 0, 1)
+    call SpaceVim#mapping#space#def('nnoremap', ['b', 'f'], 'Neoformat', 'format-code', 1)
   elseif s:format_method ==# 'codefmt'
     call SpaceVim#mapping#space#def('nnoremap', ['b', 'f'], 'FormatCode', 'format-code', 1)
-  elseif s:format_method ==# 'format.nvim'
-    call SpaceVim#mapping#space#def('nnoremap', ['b', 'f'], ":Format\<Cr>", 'format-code', 0, 1)
   endif
   augroup spacevim_layer_format
     autocmd!
@@ -85,11 +78,7 @@ function! SpaceVim#layers#format#config() abort
 endfunction
 
 function! SpaceVim#layers#format#set_variable(var) abort
-  if has_key(a:var, 'format_method') && a:var.format_method ==# 'format.nvim' && !has('nvim-0.9.0')
-    call SpaceVim#logger#info('format.nvim requires neovim 0.9.0+')
-  else
-    let s:format_method = get(a:var, 'format_method', s:format_method)
-  endif
+  let s:format_method = get(a:var, 'format_method', s:format_method)
   let s:format_on_save = get(a:var, 'format_on_save', s:format_on_save)
   let s:silent_format = get(a:var, 'silent_format', s:silent_format)
   let s:format_notify_width = get(a:var, 'format_notify_width', s:format_notify_width)
@@ -129,14 +118,6 @@ function! s:format() abort
       undojoin | Neoformat
     elseif s:format_method ==# 'codefmt'
       undojoin | FormatCode
-    elseif s:format_method ==# 'format.nvim'
-      undojoin | Format
     endif
   endif
-endfunction
-
-function! SpaceVim#layers#format#loadable() abort
-
-  return 1
-
 endfunction
