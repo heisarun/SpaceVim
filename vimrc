@@ -63,3 +63,44 @@ if has('win32') || has('win64')
 else
   call dein#add('tbodt/deoplete-tabnine', { 'build': './install.sh' })
 endif
+
+call plug#begin()
+" List your plugins here
+Plug 'vim-ruby/vim-ruby'
+call plug#end()
+
+auto_completion_return_key_behavior = "complete"
+auto_completion_tab_key_behavior = "cycle"
+set fencs=latin1
+set enc = iso-8859-1
+guifont = "Agave Nerd Font Regular:h14"
+snippet_engine = "ultisnips"
+enable_guicolors = true
+autocomplete_method = "deoplate"
+snippet_engine ="ultisnips"
+filemanager = "defx"
+
+" Required
+Plug 'neovim/nvim-lsp'
+" Plugin
+Plug 'robert-oleynik/clangd-nvim'
+
+lua << EOF
+local clangd_nvim = require'clangd_nvim'
+
+require'nvim_lsp'.clangd.setup{
+    capabilities = {
+        textDocument = {
+            semanticHighlightingCapabilities = {
+                semanticHighlighting = true
+            }
+        }
+    },
+    on_init = clangd_nvim.on_init
+}
+EOF
+
+augroup ConfigSetup
+    autocmd!
+    autocmd VimEnter,ColorScheme * runtime syntax/custom_colors.vim
+augroup END
